@@ -3,6 +3,11 @@ backend:
   repo: sharlyMantilla/Mara
   branch: main
 
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+locale: "es"
+
+
 media_folder: "assets/uploads"   # dónde se guardan las imágenes en el repo
 public_folder: "/assets/uploads" # cómo se referencian en la web
 
