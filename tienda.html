@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda | Mara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/site.css" />
+  <script src="assets/products.auto.js" defer></script>
+  <script src="assets/products.js" defer></script>
+  <script src="assets/cart.js" defer></script>
+  <script src="assets/brand-cta.js" defer></script>
+  <script src="assets/favorites.js" defer></script>
+  <meta name="theme-color" content="#0b0b0c" />
+  <meta name="msapplication-TileColor" content="#0b0b0c" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="Explora la colección completa de Mara: sets, leggings y más." />
+  <link rel="canonical" href="https://marasporfit.netlify.app/MARA/tienda.html" />
+  <meta property="og:locale" content="es_CO" />
+  <meta property="og:site_name" content="Mara" />
+  <meta property="og:title" content="Tienda | Mara" />
+  <meta property="og:description" content="Explora la colección completa de ropa deportiva femenina." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://marasporfit.netlify.app/MARA/tienda.html" />
+  <meta property="og:image" content="https://marasporfit.netlify.app/MARA/link_imagen.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:alt" content="Mara — Tienda" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tienda | Mara" />
+  <meta name="twitter:description" content="Explora la colección completa de ropa deportiva femenina." />
+  <meta name="twitter:image" content="https://marasporfit.netlify.app/MARA/link_imagen.jpg" />
+  <link rel="icon" type="image/svg+xml" href="icono.svg" />
+  <style>.btn-outline{border:1px solid #e5e7eb;}</style>
+</head>
+<body class="bg-[var(--brand-bg)] text-[var(--brand-text)] overflow-x-hidden">
+  <header class="fixed top-0 inset-x-0 z-40 bg-black/50 backdrop-blur border-b border-white/10">
+    <div class="max-w-7xl mx-auto h-16 px-6 flex items-center justify-between">
+      <a href="index.html" class="inline-flex items-center gap-3 font-extrabold tracking-tight">
+        <img src="logo.svg" alt="Mara" class="h-7 w-auto" />
+      </a>
+      <nav class="hidden md:flex items-center gap-12 text-sm text-[var(--brand-muted)]">
+        <a href="index.html" class="hover:text-white">Inicio</a>
+        <a href="tienda.html" class="text-white">Tienda</a>
+        <a href="sobre.html" class="hover:text-white">Sobre Mara</a>
+        <a href="contacto.html" class="hover:text-white">Contacto</a>
+        <a href="carrito.html" class="relative hover:text-white" aria-label="Carrito">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-6 w-6"><path d="M3 3h2l.4 2H21l-2 8H7L5 5H3z"/><circle cx="9" cy="19" r="2"/><circle cx="17" cy="19" r="2"/></svg>
+          <span class="sr-only">Carrito</span>
+          <span class="js-cart-count absolute -top-2 -right-3 hidden rounded-full px-2 py-[2px] text-[10px] font-semibold bg-[var(--brand-primary)] text-black">0</span>
+        </a>
+      </nav>
+      <button id="menuBtn" aria-controls="mobileMenu" aria-expanded="false" aria-label="Abrir menú" class="md:hidden inline-flex items-center justify-center rounded-lg p-2 ring-1 ring-white/10">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div id="mobileMenu" aria-hidden="true" class="md:hidden hidden border-t border-white/10">
+      <nav class="px-6 py-4 grid gap-3 text-[var(--brand-muted)]">
+        <a href="index.html" class="hover:text-white">Inicio</a>
+        <a href="tienda.html" class="text-white">Tienda</a>
+        <a href="sobre.html" class="hover:text-white">Sobre Mara</a>
+        <a href="contacto.html" class="hover:text-white">Contacto</a>
+        <a href="carrito.html" class="hover:text-white">Carrito</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <section class="bg-white text-zinc-900">
+      <div class="max-w-7xl mx-auto px-6 py-10">
+        <h1 class="text-2xl md:text-3xl font-bold">Tienda</h1>
+        <p class="text-zinc-600 mt-2">Explora la colección completa.</p>
+      </div>
+    </section>
+    <section class="bg-white text-zinc-900">
+      <div class="max-w-7xl mx-auto px-6 pb-16">
+        <div class="mb-4 flex items-center justify-between">
+          <div></div>
+          <div class="relative">
+            <button id="catBtn" class="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50">
+              Categorías
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div id="catMenu" class="absolute right-0 mt-2 w-44 bg-white border border-zinc-200 rounded-xl shadow-lg p-1 hidden z-10"></div>
+          </div>
+        </div>
+        <div id="grid" class="grid gap-6 sm:grid-cols-2 md:grid-cols-3"></div>
+        <div id="pager" class="mt-8 flex items-center justify-center gap-3 select-none">
+          <button type="button" id="prevPage" aria-label="Página anterior" class="inline-flex items-center justify-center h-10 w-10 rounded-full border border-zinc-200 text-zinc-700 hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div class="inline-flex items-center gap-2 text-sm text-zinc-600">
+            <input id="pageInput" type="number" min="1" value="1" class="h-10 w-14 text-center rounded-lg border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300" />
+            <span class="text-zinc-500">/</span>
+            <span id="pageTotal">1</span>
+          </div>
+          <button type="button" id="nextPage" aria-label="Página siguiente" class="inline-flex items-center justify-center h-10 w-10 rounded-full border border-zinc-200 text-zinc-700 hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contacto" class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-6 py-16 grid gap-10 md:grid-cols-4">
+      <div class="space-y-3">
+        <div class="inline-flex items-center gap-3 font-extrabold tracking-tight"><img src="logo.svg" alt="Mara" class="h-7 w-auto" /></div>
+        <p class="text-sm text-[var(--brand-muted)]">Ropa deportiva femenina para entrenar con confianza.</p>
+      </div>
+      <nav class="space-y-3">
+        <h4 class="text-sm font-semibold">Links</h4>
+        <ul class="space-y-2 text-sm text-[var(--brand-muted)]">
+          <li><a href="index.html" class="hover:text-white">Inicio</a></li>
+          <li><a href="tienda.html" class="hover:text-white">Tienda</a></li>
+          <li><a href="sobre.html" class="hover:text-white">Sobre Mara</a></li>
+          <li><a href="contacto.html" class="hover:text-white">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="space-y-3">
+        <h4 class="text-sm font-semibold">Contacto</h4>
+        <ul class="space-y-2 text-sm text-[var(--brand-muted)]">
+          <li>WhatsApp: <a href="https://wa.me/573155964247?text=Hola%20Dariela,%20quiero%20hacer%20un%20pedido" class="hover:text-white">315 596 4247</a></li>
+          <li>Instagram: <a href="https://instagram.com/marasporfit_" target="_blank" rel="noopener" class="hover:text-white">@marasporfit_</a></li>
+        </ul>
+      </div>
+      <div class="md:col-span-1"></div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-6 py-6 text-xs text-[var(--brand-muted)] flex items-center justify-between gap-4">
+        <p>© 2025 Mara. Todos los derechos reservados.</p>
+        <a href="https://sharly-brands.netlify.app" target="_blank" rel="noopener" class="inline-flex items-center gap-2 hover:text-white">
+          <img src="logo sharly brands.svg" alt="Sharly Brands" class="h-4 w-auto" />
+          <span>Hecho por Sharly Brands — Ver portafolio</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const btn = document.getElementById('menuBtn');
+      const menu = document.getElementById('mobileMenu');
+      if (!btn || !menu) return;
+      const firstLink = menu.querySelector('a');
+      function openMenu(){ menu.classList.remove('hidden'); menu.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true'); firstLink && firstLink.focus(); }
+      function closeMenu(){ menu.classList.add('hidden'); menu.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false'); btn.focus(); }
+      btn.addEventListener('click', () => { menu.classList.contains('hidden') ? openMenu() : closeMenu(); });
+      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.classList.contains('hidden')) closeMenu(); });
+    })();
+  </script>
+  <script>
+    // Grid + filtro por categoría (dropdown)
+    window.addEventListener('DOMContentLoaded', function(){
+      const ALL = '__all__';
+      const products = Array.isArray(window.PRODUCTS) ? window.PRODUCTS : [];
+      const grid = document.getElementById('grid');
+      const pager = document.getElementById('pager');
+      const prevBtn = document.getElementById('prevPage');
+      const nextBtn = document.getElementById('nextPage');
+      const pageInput = document.getElementById('pageInput');
+      const pageTotal = document.getElementById('pageTotal');
+      // Compat: conservar referencia obsoleta para no romper codigo previo
+      const pageInfo = { set textContent(v) { if (pageInput && pageTotal) { /* replaced by input/total */ } } };
+      const catBtn = document.getElementById('catBtn');
+      const catMenu = document.getElementById('catMenu');
+      if (!grid || !catBtn || !catMenu || !pager) return;
+      const fmt = window.priceToCOP || ((n)=>`$${n}`);
+
+      const slug = s => (s||'').toLowerCase();
+      const pretty = s => s.charAt(0).toUpperCase() + s.slice(1);
+      const setCats = new Set();
+      products.forEach(p => (p.cats||[]).forEach(c => setCats.add(slug(c))));
+      const catList = [ALL, ...Array.from(setCats)];
+
+      // Estado para paginación
+      let currentCat = ALL;
+      let currentPage = 1;
+      let totalPages = 1;
+
+      // Normalización de rutas problemáticas (casos puntuales)
+      function normalizeProduct(p){
+        if (!p) return p;
+        if (p.id === 'camiseta-oversize-marron'){
+          const base = 'productos/Camiseta oversize - marron ';
+          return { ...p, name: 'Camiseta Oversize - Marrón', images: [1,2,3,4,5,6].map(n => `${base}${n}.webp`) };
+        }
+        if (p.id === 'camiseta-oversize-negra'){
+          const imgs = Array.isArray(p.images) ? p.images.slice() : [];
+          if (imgs.length >= 4) imgs[3] = 'productos/Camiseta oversize - negra 4.webp';
+          return { ...p, images: imgs };
+        }
+        if (p.id === 'camiseta-oversize-negra-4') return null;
+        return p;
+      }
+
+      function itemsPerPage(){
+        const w = window.innerWidth;
+        if (w < 640) return 6;      // móvil: 1 columna x 6 filas
+        if (w < 768) return 8;      // sm: 2 columnas x 4 filas
+        if (w < 1024) return 9;     // md: 3 columnas x 3 filas
+        return 12;                   // lg+: 3-4 columnas x 3 filas aprox
+      }
+
+      function updatePager(listLength){
+        const per = itemsPerPage();
+        totalPages = Math.max(1, Math.ceil(listLength / per));
+        if (currentPage > totalPages) currentPage = totalPages;
+        pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+        prevBtn.disabled = currentPage <= 1;
+        nextBtn.disabled = currentPage >= totalPages;
+        pager.classList.toggle('hidden', totalPages <= 1);
+      }
+
+      function buildMenu(){
+        catMenu.innerHTML = '';
+        catList.forEach(c => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.dataset.cat = c;
+          b.className = 'w-full text-left px-3 py-2 rounded-lg hover:bg-zinc-50 text-sm';
+          b.textContent = (c===ALL? 'Todas' : pretty(c));
+          catMenu.appendChild(b);
+        });
+      }
+
+      function render(cat = currentCat){
+        const list = (cat===ALL) ? products : products.filter(p => (p.cats||[]).map(slug).includes(cat));
+        updatePager(list.length);
+        if (pageInput) { pageInput.min = 1; pageInput.max = totalPages; pageInput.value = currentPage; }
+        if (pageTotal) { pageTotal.textContent = totalPages; }
+        const start = (currentPage - 1) * itemsPerPage();
+        const end = start + itemsPerPage();
+        const slice = list.slice(start, end);
+        grid.innerHTML = '';
+        slice.forEach(p => {
+          p = normalizeProduct(p);
+          const id = p.id || '';
+          const name = p.name || 'Producto';
+          const price = (typeof p.price === 'number' && p.price > 0) ? fmt(p.price) : 'Consultar';
+          const img = (Array.isArray(p.images) && p.images.length) ? p.images[0] : '';
+          const a = document.createElement('article');
+          a.className = 'rounded-2xl overflow-hidden border border-zinc-200 bg-white shadow-sm card-hover';
+          a.innerHTML = [
+            `<a href="producto.html?id=${encodeURIComponent(id)}" class="block">`+
+            `<div class="aspect-[4/3] img-ph" style="background:url('${img}') center/cover"></div>`+
+            `</a>`,
+            `<div class="p-4 space-y-2">`,
+            `<h3 class="font-semibold">${name}</h3>`,
+            `<p class="text-zinc-600">${fmt(p.price)}`+`</p>`,
+            `<div class="flex items-center gap-2" data-fav-card>`+
+            `<button type="button" class="inline-flex items-center justify-center h-8 w-8 rounded-full border border-zinc-200 text-zinc-500 hover:text-[var(--brand-primary)] hover:bg-zinc-50 transition love-btn" data-fav="${encodeURIComponent(id)}" aria-pressed="false">`+
+              `<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" class=\"love-outline h-4 w-4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.485 1.06-4.312 2.583-.827-1.523-2.377-2.583-4.313-2.583C5.1 3.75 3 5.765 3 8.25c0 7.125 9 12 9 12s9-4.875 9-12z\"/></svg>`+
+              `<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" class=\"love-fill h-4 w-4 hidden\" fill=\"currentColor\"><path d=\"M11.645 20.91l-.007-.003-.022-.01a15.247 15.247 0 01-.383-.173 25.18 25.18 0 01-4.244-2.582C4.688 16.36 2.25 13.95 2.25 10.5 2.25 8.014 4.235 6 6.75 6c1.54 0 2.736.71 3.487 1.575a5.777 5.777 0 01.737 1.027 5.777 5.777 0 01.737-1.027C12.199 6.71 13.395 6 14.936 6c2.514 0 4.5 2.014 4.5 4.5 0 3.45-2.438 5.86-4.739 7.642a25.175 25.175 0 01-4.244 2.582 15.247 15.247 0 01-.383.173l-.022.01-.007.003-.003.001a.75.75 0 01-.56 0l-.003-.001z\"/></svg>`+
+            `</button>`+
+            `<span class=\"js-fav-count text-xs text-zinc-500 select-none\">0</span>`+
+            `<a href="producto.html?id=${encodeURIComponent(id)}" class="inline-flex items-center justify-center rounded-lg px-4 py-2 btn-outline hover:bg-zinc-50">Ver detalle</a>`+
+            `<button data-add="${encodeURIComponent(id)}" class="inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-semibold btn-primary">`+
+              `<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\" class=\"h-4 w-4\">`+
+                `<path d=\"M3 3h2l.4 2H21l-2 8H7L5 5H3z\"/>`+
+                `<circle cx=\"9\" cy=\"19\" r=\"2\"/>`+
+                `<circle cx=\"17\" cy=\"19\" r=\"2\"/>`+
+              `</svg>`+
+              `<span>Agregar</span>`+
+            `</button>`+
+            `</div>`,
+            `</div>`
+          ].join('');
+          grid.appendChild(a);
+          try { window.MaraFav && window.MaraFav.bind(a); } catch {}
+          // Rotador al hover: cambia preview entre imágenes del producto
+          try{
+            const imgDiv = a.querySelector('.img-ph');
+            const pics = Array.isArray(p.images) ? p.images.slice() : [];
+            if (imgDiv && pics.length > 1){
+              let idx = 0, to = null;
+              const base = pics[0];
+              function fadeTo(nextUrl){
+                const overlay = document.createElement('div');
+                overlay.className = 'img-fade';
+                overlay.style.backgroundImage = `url('${nextUrl}')`;
+                imgDiv.appendChild(overlay);
+                void overlay.offsetHeight; // reflow
+                overlay.style.opacity = '1';
+                setTimeout(()=>{ imgDiv.style.background = `url('${nextUrl}') center/cover`; overlay.remove(); }, 280);
+              }
+              function step(){ idx = (idx+1) % pics.length; fadeTo(pics[idx]); }
+              function start(){ if (to) return; to = setInterval(step, 1100); }
+              function stop(){ if (to) { clearInterval(to); to = null; } imgDiv.style.background = `url('${base}') center/cover`; idx = 0; const o = imgDiv.querySelector('.img-fade'); o && o.remove(); }
+              a.addEventListener('mouseenter', start);
+              a.addEventListener('mouseleave', stop);
+              a.addEventListener('focusin', start);
+              a.addEventListener('focusout', stop);
+            }
+          }catch{}
+        });
+      }
+
+      function toggleMenu(){ catMenu.classList.toggle('hidden'); }
+      function closeMenu(){ catMenu.classList.add('hidden'); }
+      document.addEventListener('click', (e)=>{ if (!e.target.closest('#catMenu') && !e.target.closest('#catBtn')) closeMenu(); });
+      catBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleMenu(); });
+      catMenu.addEventListener('click', (e)=>{
+        const btn = e.target.closest('button[data-cat]');
+        if (!btn) return;
+        const c = btn.dataset.cat;
+        catBtn.childNodes[0].nodeValue = (c===ALL ? 'Categorías' : pretty(c) + ' ');
+        closeMenu();
+        render(c);
+      });
+
+      buildMenu();
+      render(ALL);
+
+      grid.addEventListener('click', (e)=>{
+        // Guardar estado antes de ir al detalle
+        const link = e.target.closest('a[href*="producto.html"]');
+        if (link) {
+          try { sessionStorage.setItem('mara:lastShop', JSON.stringify({ cat: currentCat, page: currentPage })); } catch {}
+          return; // permitir navegación normal
+        }
+        const btn = e.target.closest('button[data-add]');
+        if (!btn) return;
+        const id = btn.getAttribute('data-add');
+        if (!id || !window.MaraCart) return;
+        window.MaraCart.addById(id, 1);
+        const old = btn.textContent; btn.textContent = 'Agregado'; btn.disabled = true; setTimeout(()=>{ btn.textContent = old; btn.disabled = false; }, 800);
+      });
+
+      // Override de selección de categoría para integrar paginación
+      catMenu.addEventListener('click', (e)=>{
+        const btn = e.target.closest('button[data-cat]');
+        if (!btn) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        const c = btn.dataset.cat;
+        catBtn.childNodes[0].nodeValue = (c===ALL ? 'Categorías' : pretty(c) + ' ');
+        currentCat = c;
+        currentPage = 1;
+        render(currentCat);
+      }, true);
+
+      // Navegación de páginas
+      prevBtn && prevBtn.addEventListener('click', ()=>{ if (currentPage > 1) { currentPage--; render(currentCat); window.scrollTo({top:0,behavior:'smooth'}); } });
+      nextBtn && nextBtn.addEventListener('click', ()=>{ if (currentPage < totalPages) { currentPage++; render(currentCat); window.scrollTo({top:0,behavior:'smooth'}); } });
+
+      // Salto directo de página via input
+      function gotoInputPage(){
+        if (!pageInput) return;
+        let v = parseInt(pageInput.value, 10);
+        if (Number.isNaN(v)) { pageInput.value = currentPage; return; }
+        v = Math.min(Math.max(1, v), totalPages);
+        if (v !== currentPage) { currentPage = v; render(currentCat); window.scrollTo({top:0,behavior:'smooth'}); }
+        pageInput.value = currentPage;
+      }
+      pageInput && pageInput.addEventListener('change', gotoInputPage);
+      pageInput && pageInput.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') { e.preventDefault(); gotoInputPage(); } });
+
+      // Inicializar estado y render (vuelve a pintar con control de paginación)
+      currentCat = ALL;
+      render(currentCat);
+
+      // Re-render al redimensionar (cambia elementos por página)
+      let resizeTO;
+      window.addEventListener('resize', ()=>{ clearTimeout(resizeTO); resizeTO = setTimeout(()=>{ render(currentCat); }, 120); });
+    });
+  </script>
+  <script src="assets/header-scroll.js" defer></script>
+  <script src="assets/whatsapp.js" defer></script>
+</body>
+</html>

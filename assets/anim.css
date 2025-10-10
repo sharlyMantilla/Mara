@@ -1,0 +1,109 @@
+/* ================= Animaciones vistosas (sin alterar layout) ================ */
+/* Glow dinámico y barrido de líneas sobre el hero */
+#hero { position: relative; overflow: hidden; }
+.hero-effects { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.hero-glow, .hero-lines, .hero-sparkles { position: absolute; inset: 0; }
+
+/* Barrido de luces con mix-blend para realzar el fondo */
+.hero-glow { mix-blend-mode: screen; opacity: .65; filter: blur(20px);
+  background:
+    radial-gradient(1200px 600px at -20% 20%, rgba(255,190,152,0.35), transparent 60%),
+    radial-gradient(800px 500px at 120% 80%, rgba(255,255,255,0.25), transparent 60%),
+    radial-gradient(600px 400px at 50% -10%, rgba(255,120,80,0.22), transparent 60%);
+  animation: glow-shift 12s ease-in-out infinite alternate;
+}
+@keyframes glow-shift {
+  from { transform: translate3d(-3%, -2%, 0) scale(1); }
+  50%  { transform: translate3d(3%, 1%, 0) scale(1.05); }
+  to   { transform: translate3d(-2%, 3%, 0) scale(1.02); }
+}
+
+/* Líneas energéticas desplazándose en diagonal */
+.hero-lines { opacity: .22; mix-blend-mode: overlay;
+  background-image:
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,0.07) 0px,
+      rgba(255,255,255,0.07) 2px,
+      transparent 2px,
+      transparent 12px);
+  background-size: 200% 200%;
+  animation: lines-move 10s linear infinite;
+}
+@keyframes lines-move {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 200% 200%; }
+}
+
+/* Partículas flotantes */
+.hero-sparkles { overflow: hidden; }
+.hero-sparkles span { position: absolute; width: 6px; height: 6px; border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, rgba(255,255,255,.6) 40%, rgba(255,255,255,0) 70%);
+  box-shadow: 0 0 12px rgba(255,255,255,.65), 0 0 28px rgba(255,190,152,.55);
+  animation: float-up 9s linear infinite;
+  opacity: .9;
+}
+@keyframes float-up {
+  0%   { transform: translateY(0) translateX(0) scale(.8); opacity: .0; }
+  10%  { opacity: .9; }
+  100% { transform: translateY(-140vh) translateX(20vw) scale(1.1); opacity: 0; }
+}
+
+/* Título con leve brillo pulsante (sin moverlo) */
+.hero-title { text-shadow:
+  0 0 0 rgba(255,190,152,0),
+  0 0 0 rgba(255,255,255,0);
+  animation: title-glow 3.5s ease-in-out infinite;
+}
+@keyframes title-glow {
+  0%, 100% { text-shadow: 0 0 0 rgba(255,190,152,0), 0 0 0 rgba(255,255,255,0); }
+  50% { text-shadow: 0 2px 20px rgba(255,190,152,.45), 0 0 50px rgba(255,255,255,.25); }
+}
+
+/* Botón con pulso y halo sutil (no cambia layout) */
+.btn-pulse { position: relative; }
+.btn-pulse::after { content: ""; position: absolute; inset: -6px; border-radius: 14px; pointer-events: none;
+  background: radial-gradient(60% 60% at 50% 50%, rgba(255,190,152,.35), rgba(255,190,152,0));
+  filter: blur(8px); opacity: .0; animation: btn-halo 2.8s ease-in-out infinite;
+}
+@keyframes btn-halo {
+  0%, 100% { opacity: .0; transform: scale(.98); }
+  50% { opacity: .75; transform: scale(1.02); }
+}
+
+/* Revelado al hacer scroll para secciones */
+.reveal { opacity: 0; transform: translateY(24px) scale(.98); transition: opacity .9s ease, transform .9s ease; }
+.reveal.in { opacity: 1; transform: translateY(0) scale(1); }
+
+/* Variantes de reveal para entradas laterales */
+.slide-in-left { transform: translateX(-40px); opacity: 0; }
+.slide-in-right { transform: translateX(40px); opacity: 0; }
+.slide-in-left.in, .slide-in-right.in { transform: none; opacity: 1; transition: transform .9s cubic-bezier(.2,.8,.2,1), opacity .9s ease; }
+
+/* Cinta de texto (ticker) */
+.ticker { position: relative; overflow: hidden; background: #0b0b0c; color: #fff; border-block: 1px solid rgba(255,255,255,0.08); }
+.ticker::before, .ticker::after { content:""; position:absolute; top:0; bottom:0; width:60px; pointer-events:none; }
+.ticker::before { left:0; background: linear-gradient(90deg, #0b0b0c, rgba(11,11,12,0)); }
+.ticker::after  { right:0; background: linear-gradient(270deg, #0b0b0c, rgba(11,11,12,0)); }
+.ticker .track { display: inline-flex; align-items: center; gap: 2rem; width: max-content; white-space: nowrap; padding: .75rem 0; animation: ticker-move 24s linear infinite; will-change: transform; }
+.ticker .item { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; opacity: .95; }
+.ticker .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--brand-primary); box-shadow: 0 0 12px rgba(255,190,152,.7); }
+@keyframes ticker-move { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Intro del botón (una sola vez) */
+.btn-intro { animation: btn-intro-pop 900ms cubic-bezier(.16,1,.3,1) 1 both; }
+@keyframes btn-intro-pop {
+  0%   { transform: scale(.8); filter: brightness(.9); box-shadow: 0 0 0 rgba(255,190,152,0); }
+  60%  { transform: scale(1.06); filter: brightness(1.05); box-shadow: 0 10px 40px rgba(255,190,152,.45); }
+  100% { transform: scale(1);   filter: none;  box-shadow: 0 0 0 rgba(255,190,152,0); }
+}
+
+/* Brillo/reflejo sobre imágenes (hover) */
+.shine, .shine-sm { position: relative; overflow: hidden; }
+.shine::after, .shine-sm::after { content: ""; position: absolute; top: -20%; bottom: -20%; left: -130%; width: 55%; pointer-events: none;
+  background: linear-gradient(105deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.22) 45%, rgba(255,255,255,0) 60%);
+  filter: blur(10px); transform: skewX(-20deg);
+}
+.shine-sm::after { width: 40%; filter: blur(8px); }
+.shine:hover::after { animation: shine-sweep 1.05s cubic-bezier(.2,.8,.2,1); }
+.shine-sm:hover::after { animation: shine-sweep .75s cubic-bezier(.2,.8,.2,1); }
+@keyframes shine-sweep { to { left: 130%; } }

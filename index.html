@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mara Ropa deportiva femenina</title>
+
+<!-- FUENTES / CSS -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/site.css" />
+<link rel="stylesheet" href="assets/anim.css" />
+<script src="assets/products.auto.js" defer></script>
+<script src="assets/products.js" defer></script>
+<script src="assets/cart.js" defer></script>
+<script src="assets/brand-cta.js" defer></script>
+
+<!-- THEME -->
+<meta name="theme-color" content="#0b0b0c" />
+<meta name="msapplication-TileColor" content="#0b0b0c" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<!-- SEO BASE -->
+<title>Mara — Ropa deportiva femenina</title>
+<meta name="description" content="Ropa deportiva femenina para entrenar con confianza. Descubre sets, leggings y más." />
+<link rel="canonical" href="https://marasporfit.netlify.app/" />
+
+<!-- OPEN GRAPH -->
+<meta property="og:locale" content="es_CO" />
+<meta property="og:site_name" content="Mara" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://marasporfit.netlify.app/" />
+<meta property="og:title" content="Mara — Ropa deportiva femenina" />
+<meta property="og:description" content="Ropa deportiva femenina para entrenar con confianza. Descubre sets, leggings y más." />
+
+<!-- Asegúrate que ESTA ruta existe y devuelve 200 OK -->
+<meta property="og:image" content="https://marasportfit.netlify.app/assets/og-image.jpg" />
+<meta property="og:image:secure_url" content="https://marasportfit.netlify.app/assets/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content="Hero de Mara: ropa deportiva femenina" />
+
+<!-- TWITTER (sirve también en varios previews) -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Mara — Ropa deportiva femenina" />
+<meta name="twitter:description" content="Ropa deportiva femenina para entrenar con confianza. Descubre sets, leggings y más." />
+<meta name="twitter:image" content="https://marasportfit.netlify.app/assets/og-image.jpg" />
+
+<!-- FAVICON -->
+<link rel="icon" type="image/svg+xml" href="icono.svg" />
+
+
+  <style>
+    :root {
+      /* Mobile-first: fondo claro */
+      --brand-bg: #ffffff;
+      --brand-text: #0b0b0c;
+      --brand-muted: #d1d5db; /* se usa en header oscuro */
+      --brand-primary: #FFBE98; /* Peach Fuzz */
+    }
+    @media (min-width: 768px) {
+      :root { --brand-bg: #0b0b0c; --brand-text: #e5e7eb; }
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; }
+    h1, h2 { font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; }
+    :focus-visible { outline: 3px solid var(--brand-primary); outline-offset: 3px; }
+    .img-ph { background: #eee; color:#777; display:grid; place-items:center; }
+    .btn-primary { background: var(--brand-primary); color:#111; }
+    .btn-primary:hover { filter: brightness(0.95); }
+    .btn-primary:active { transform: scale(0.98); }
+    /* Hero responsive background */
+      .hero-bg { background-image: url('Bg_Movil.jpg'); }
+      @media (min-width: 768px) {
+        .hero-bg { background-image: url('Bg_Desktop.jpg'); }
+      }
+      /* Altura del hero: móvil cubre pantalla real (dvh) tras header fijo; en desktop 100vh completo */
+      .hero-min { min-height: calc(100dvh - 4rem); }
+      @media (min-width: 768px) { .hero-min { min-height: 100vh; } }
+
+    /* Ajustes solo para móvil: bajar título/botón y reducir tamaño del h1 */
+    @media (max-width: 767.98px) {
+      /* Baja el bloque de texto dentro del hero */
+      #hero > div.absolute { padding-top: 26rem; }
+      /* Reduce un poco el tamaño del h1 en móvil */
+      #hero h1 { font-size: 1.75rem; line-height: 1.2; }
+      /* Ajusta la altura del hero para que no haya espacio vacío al hacer scroll */
+      .hero-min { min-height: calc(100dvh - 4rem + 4rem); }
+    }
+    /* Imágenes de productos en Colección destacada */
+    #tienda .img-ph span { display: none; }
+    /* Carrusel horizontal para destacados */
+    .ti-carousel-track { scroll-snap-type: x mandatory; }
+    .ti-card { scroll-snap-align: start; }
+    /* Oculta el grid previo (placeholders) */
+    #tienda .grid { display: none !important; }
+
+    /* Imágenes lookbook "Inspírate con Mara" */
+    #lookbook .img-ph span { display: none; }
+    #lookbook .grid > div:nth-child(1) { background-image: url('productos/ig a.webp'); background-size: cover; background-position: center; }
+    #lookbook .grid > div:nth-child(2) { background-image: url('productos/ig b.webp'); background-size: cover; background-position: center; }
+    /* En móvil, reemplaza la segunda imagen por 'ig e' para que aparezca dentro del top-4 */
+    @media (max-width: 767.98px) {
+      #lookbook .grid > div:nth-child(2) { background-image: url('productos/ig e.jpeg'); }
+    }
+    #lookbook .grid > div:nth-child(3) { background-image: url('productos/ig c.jpeg'); background-size: cover; background-position: center; }
+    #lookbook .grid > div:nth-child(4) { background-image: url('productos/ig d.jpg');  background-size: cover; background-position: center; }
+    #lookbook .grid > div:nth-child(5) { background-image: url('productos/ig e.jpeg'); background-size: cover; background-position: center; }
+    #lookbook .grid > div:nth-child(6) { background-image: url('productos/ig f.jpeg'); background-size: cover; background-position: center; }
+
+    /* Imagen BN lifestyle en sección Sobre Mara */
+    #sobre .img-ph span { display: none; }
+    #sobre .img-ph {
+      background-image: url('productos/life style.jpg');
+      background-size: cover;
+      background-position: center;
+      transform: scaleX(-1);
+    }
+
+    /* Footer con alto contraste */
+    #contacto {
+      background: #0b0b0c;     /* negro Mara */
+      color: #e5e7eb;          /* texto claro predeterminado */
+      --brand-muted: #cbd5e1;  /* gris claro para secundarios */
+    }
+    #contacto a { color: #e5e7eb; }
+    #contacto a:hover { color: #ffffff; }
+
+    /* Overrides para colección destacada dinámica */
+    #tienda .grid > article { display: block !important; }
+  </style>
+</head>
+<body class="bg-[var(--brand-bg)] text-[var(--brand-text)] overflow-x-hidden">
+
+  <!-- Header -->
+  <header class="fixed top-0 inset-x-0 z-40 bg-black/50 backdrop-blur border-b border-white/10">
+    <div class="max-w-7xl mx-auto h-16 px-6 flex items-center justify-between">
+      <a href="index.html" class="inline-flex items-center gap-3 font-extrabold tracking-tight">
+        <img src="logo.svg" alt="Mara" class="h-7 w-auto" />
+      </a>
+      <nav class="hidden md:flex items-center gap-12 text-sm text-[var(--brand-muted)]">
+        <a href="index.html" class="hover:text-white">Inicio</a>
+        <a href="tienda.html" class="hover:text-white">Tienda</a>
+        <a href="sobre.html" class="hover:text-white">Sobre Mara</a>
+        <a href="contacto.html" class="hover:text-white">Contacto</a>
+        <a href="carrito.html" class="relative hover:text-white" aria-label="Carrito">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-6 w-6">
+            <path d="M3 3h2l.4 2H21l-2 8H7L5 5H3z"/>
+            <circle cx="9" cy="19" r="2"/>
+            <circle cx="17" cy="19" r="2"/>
+          </svg>
+          <span class="sr-only">Carrito</span>
+          <span class="js-cart-count absolute -top-2 -right-3 hidden rounded-full px-2 py-[2px] text-[10px] font-semibold bg-[var(--brand-primary)] text-black">0</span>
+        </a>
+      </nav>
+      <button id="menuBtn" aria-controls="mobileMenu" aria-expanded="false" aria-label="Abrir menú"
+        class="md:hidden inline-flex items-center justify-center rounded-lg p-2 ring-1 ring-white/10">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div id="mobileMenu" aria-hidden="true" class="md:hidden hidden border-t border-white/10">
+      <nav class="px-6 py-4 grid gap-3 text-[var(--brand-muted)]">
+        <a href="index.html" class="hover:text-white">Inicio</a>
+        <a href="tienda.html" class="hover:text-white">Tienda</a>
+        <a href="sobre.html" class="hover:text-white">Sobre Mara</a>
+        <a href="contacto.html" class="hover:text-white">Contacto</a>
+        <a href="carrito.html" class="hover:text-white">Carrito</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- espacio eliminado para que el hero ocupe toda la altura tras el header -->
+
+  <!-- Hero -->
+  <section id="hero" class="relative">
+    <div class="w-full hero-min bg-cover hero-bg" style="background-position:center;"></div>
+    <div class="absolute inset-0 flex items-start md:items-center pt-28 md:pt-0">
+      <div class="w-full max-w-7xl mx-auto px-6">
+        <div class="w-7/12 sm:w-6/12 ml-auto text-right pr-2 sm:pr-4 md:text-left md:w-5/12 md:pr-24 lg:pr-32 md:translate-x-[150px] md:translate-y-[120px]">
+          <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 leading-tight">
+  <!-- Escritorio: salto después de "estilo" -->
+  <span class="hidden md:inline">
+    Tu estilo<br>es tu elección
+  </span>
+  <!-- Móvil: salto después de "es" -->
+  <span class="block md:hidden">
+    Tu estilo es<br>tu elección
+  </span>
+</h1>
+          <a href="#tienda" class="mt-6 inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold btn-primary">Ver colección</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cinta animada -->
+  <section class="ticker">
+    <div class="track">
+      <div class="item"><span class="dot"></span><span>Mara</span><span>•</span><span>Ropa deportiva femenina</span><span>•</span><span>Sets</span><span>•</span><span>Leggings</span></div>
+      <div class="item"><span class="dot"></span><span>Entrena con confianza</span><span>•</span><span>Calidad</span><span>•</span><span>Estilo</span><span>•</span><span>Comodidad</span></div>
+      <div class="item"><span class="dot"></span><span>Mara</span><span>•</span><span>Ropa deportiva femenina</span><span>•</span><span>Sets</span><span>•</span><span>Leggings</span></div>
+      <div class="item"><span class="dot"></span><span>Entrena con confianza</span><span>•</span><span>Calidad</span><span>•</span><span>Estilo</span><span>•</span><span>Comodidad</span></div>
+      <div class="item"><span class="dot"></span><span>Mara</span><span>•</span><span>Ropa deportiva femenina</span><span>•</span><span>Sets</span><span>•</span><span>Leggings</span></div>
+      <div class="item"><span class="dot"></span><span>Entrena con confianza</span><span>•</span><span>Calidad</span><span>•</span><span>Estilo</span><span>•</span><span>Comodidad</span></div>
+    </div>
+  </section>
+
+  <!-- Colección destacada -->
+  <section id="tienda" class="bg-white text-zinc-900">
+    <div class="max-w-7xl mx-auto px-6 py-16">
+      <h2 class="text-2xl md:text-3xl font-bold mb-8">Colección Destacada</h2>
+      <div class="relative mb-8">
+        <button id="tiPrevFloat" aria-label="Anterior" class="hidden md:flex items-center justify-center absolute left-0 top-1/2 -translate-y-1/2 z-10 rounded-full p-2 bg-white/80 shadow ring-1 ring-zinc-200 text-zinc-700 hover:bg-white">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        </button>
+        <button id="tiNextFloat" aria-label="Siguiente" class="hidden md:flex items-center justify-center absolute right-0 top-1/2 -translate-y-1/2 z-10 rounded-full p-2 bg-white/80 shadow ring-1 ring-zinc-200 text-zinc-700 hover:bg-white">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+        </button>
+        <div class="ti-carousel-track flex gap-6 overflow-x-auto md:overflow-x-hidden snap-x snap-mandatory scroll-smooth" id="tiTrack" aria-label="Productos destacados"></div>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        <article class="rounded-2xl overflow-hidden border border-zinc-200 bg-white shadow-sm card-hover" data-id="set-oversize">
+          <div class="aspect-[4/3] img-ph"><span class="text-zinc-600">imagen aquí</span></div>
+          <div class="p-4 space-y-2">
+            <h3 class="font-semibold">Set Oversize + Push Up + Medias</h3>
+            <p class="text-zinc-600">$90.000</p>
+            <a href="producto.html?id=set-oversize" class="inline-flex items-center justify-center rounded-lg px-4 py-2 border border-zinc-200 hover:bg-zinc-50">Ver detalle</a>
+          </div>
+        </article>
+        <article class="rounded-2xl overflow-hidden border border-zinc-200 bg-white shadow-sm card-hover" data-id="set-short-top">
+          <div class="aspect-[4/3] img-ph"><span class="text-zinc-600">imagen aquí</span></div>
+          <div class="p-4 space-y-2">
+            <h3 class="font-semibold">Set Short + Top</h3>
+            <p class="text-zinc-600">$60.000</p>
+            <a href="producto.html?id=set-short-top" class="inline-flex items-center justify-center rounded-lg px-4 py-2 border border-zinc-200 hover:bg-zinc-50">Ver detalle</a>
+          </div>
+        </article>
+        <article class="rounded-2xl overflow-hidden border border-zinc-200 bg-white shadow-sm card-hover" style="display:none" data-id="leggings-largos">
+          <div class="aspect-[4/3] img-ph"><span class="text-zinc-600">imagen aquí</span></div>
+          <div class="p-4 space-y-2">
+            <h3 class="font-semibold">Leggings Largos</h3>
+            <p class="text-zinc-600">$60.000</p>
+            <a href="producto.html?id=leggings-largos" class="inline-flex items-center justify-center rounded-lg px-4 py-2 border border-zinc-200 hover:bg-zinc-50">Ver detalle</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+  <script>
+    // Rellenar dinámicamente "Colección Destacada" con los 3 productos más recientes
+    window.addEventListener('DOMContentLoaded', function(){
+      try{
+        const all = Array.isArray(window.PRODUCTS) ? window.PRODUCTS.slice() : [];
+        const track = document.getElementById('tiTrack');
+        if (!track || all.length === 0) return;
+        // Tomar los 3 últimos (más recientes) y mostrar el más nuevo primero
+        const recent = all.slice(-5).reverse();
+        const fmt = window.priceToCOP || ((n)=>`$${n}`);
+        track.innerHTML = '';
+        recent.forEach(p => {
+          if (!p || !p.id) return;
+          const id = p.id || '';
+          const name = p.name || 'Producto';
+          const price = (typeof p.price === 'number' && p.price > 0) ? fmt(p.price) : 'Consultar';
+          const img = (Array.isArray(p.images) && p.images.length) ? p.images[0] : '';
+          const art = document.createElement('article');
+          art.className = 'ti-card rounded-2xl overflow-hidden border border-zinc-200 bg-white shadow-sm card-hover shrink-0 w-[80%] sm:w-[55%] md:w-[33%] lg:w-[25%] max-w-[360px]';
+          art.setAttribute('data-id', id);
+          art.innerHTML = [
+            `<a href="producto.html?id=${encodeURIComponent(id)}" class="block">`+
+            `<div class="aspect-[4/3] img-ph" style="background:url('${img}') center/cover"></div>`+
+            `</a>`,
+            `<div class="p-4 space-y-2">`,
+            `<h3 class="font-semibold">${name}</h3>`,
+            `<p class="text-zinc-600">${price}</p>`,
+            `<a href="producto.html?id=${encodeURIComponent(id)}" class="inline-flex items-center justify-center rounded-lg px-4 py-2 border border-zinc-200 hover:bg-zinc-50">Ver detalle</a>`,
+            `</div>`
+          ].join('');
+          track.appendChild(art);
+        });
+        // Controles del carrusel (superior y flotantes laterales)
+        const prevBtns = [document.getElementById('tiPrev'), document.getElementById('tiPrevFloat')].filter(Boolean);
+        const nextBtns = [document.getElementById('tiNext'), document.getElementById('tiNextFloat')].filter(Boolean);
+        const scrollAmt = ()=> Math.max(280, Math.floor(track.clientWidth * 0.9));
+        prevBtns.forEach(btn=> btn && btn.addEventListener('click', ()=> track.scrollBy({left: -scrollAmt(), behavior:'smooth'})) );
+        nextBtns.forEach(btn=> btn && btn.addEventListener('click', ()=> track.scrollBy({left: scrollAmt(), behavior:'smooth'})) );
+        function updateArrows(){
+          const max = track.scrollWidth - track.clientWidth - 2;
+          const atStart = track.scrollLeft <= 2;
+          const atEnd = track.scrollLeft >= max;
+          prevBtns.forEach(b=> { if (b) b.style.opacity = atStart ? '0.4' : '1'; });
+          nextBtns.forEach(b=> { if (b) b.style.opacity = atEnd ? '0.4' : '1'; });
+        }
+        track.addEventListener('scroll', updateArrows, {passive:true});
+        window.addEventListener('resize', updateArrows);
+        updateArrows();
+      }catch{}
+    });
+  </script>
+
+  <!-- Transición de 3 imágenes en "Sobre Mara" -->
+  <script>
+    window.addEventListener('DOMContentLoaded', function(){
+      try{
+        const box = document.querySelector('#sobre .img-ph');
+        if (!box) return;
+        const pics = [
+          'productos/life style.jpg',
+          'productos/life style 2.jpg',
+          'productos/life style 3.jpg'
+        ];
+        let idx = 0;
+        function fadeTo(nextUrl){
+          const overlay = document.createElement('div');
+          overlay.className = 'img-fade';
+          overlay.style.backgroundImage = `url('${nextUrl}')`;
+          box.appendChild(overlay);
+          void overlay.offsetHeight;
+          overlay.style.opacity = '1';
+          setTimeout(()=>{ box.style.background = `url('${nextUrl}') center/cover`; overlay.remove(); }, 480);
+        }
+        box.style.background = `url('${pics[0]}') center/cover`;
+        setInterval(()=>{ idx = (idx+1) % pics.length; fadeTo(pics[idx]); }, 3000);
+      }catch{}
+    });
+  </script>
+
+  <!-- Sobre Mara -->
+  <section id="sobre" class="bg-white text-zinc-900">
+    <div class="max-w-7xl mx-auto px-6 py-16 grid gap-8 md:grid-cols-2 md:items-center">
+      <div class="space-y-4 slide-in-left">
+        <h2 class="text-2xl md:text-3xl font-bold">Más que ropa, una forma de expresarte.</h2>
+        <blockquote class="text-zinc-600">“Mara es el reflejo de mujeres que combinan fuerza y feminidad en cada paso. eligen prendas activas,  listas para superar retos dentro y fuera del gimnasio. Apostamos por la calidad, porque creemos que vestirse también es una manera de mostrar quién eres y hacia dónde vas.”</blockquote>
+      </div>
+      <div class="aspect-[4/3] img-ph rounded-2xl border border-zinc-200 bg-zinc-50 slide-in-right">
+        <span class="text-zinc-600">foto aquí (BN lifestyle)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lookbook -->
+  <section id="lookbook" class="bg-white text-zinc-900">
+    <div class="max-w-7xl mx-auto px-6 py-16">
+      <h2 class="text-2xl md:text-3xl font-bold mb-8">Inspírate con Mara</h2>
+      <div class="grid gap-4 grid-cols-2 md:grid-cols-3">
+        <div class="aspect-[4/5] img-ph rounded-xl"><span class="text-zinc-600">foto</span></div>
+        <div class="aspect-[4/5] img-ph rounded-xl"><span class="text-zinc-600">foto</span></div>
+        <div class="aspect-[4/5] img-ph rounded-xl"><span class="text-zinc-600">foto</span></div>
+        <div class="aspect-[4/5] img-ph rounded-xl"><span class="text-zinc-600">foto</span></div>
+        <div class="aspect-[4/5] img-ph rounded-xl hidden md:block"><span class="text-zinc-600">foto</span></div>
+        <div class="aspect-[4/5] img-ph rounded-xl hidden md:block"><span class="text-zinc-600">foto</span></div>
+      </div>
+      <div class="mt-6">
+        <a href="https://instagram.com/marasporfit_" target="_blank" rel="noopener" class="inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold border border-zinc-200 hover:bg-zinc-50 text-zinc-900">Ver más en Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16" style="background: color-mix(in oklab, var(--brand-primary) 20%, black)">
+    <div class="max-w-7xl mx-auto px-6 text-center space-y-5">
+      <p class="text-2xl md:text-3xl font-extrabold text-white">Vístete de confianza. Entrena con Mara.</p>
+      <a href="tienda.html" class="inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold bg-black/30 text-white ring-1 ring-white/10 hover:bg-black/40">Ir a la tienda</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contacto" class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-6 py-16 grid gap-10 md:grid-cols-4">
+      <div class="space-y-3">
+        <div class="inline-flex items-center gap-3 font-extrabold tracking-tight">
+          <img src="logo.svg" alt="Mara" class="h-7 w-auto" />
+        </div>
+        <p class="text-sm text-[var(--brand-muted)]">Ropa deportiva femenina para entrenar con confianza.</p>
+      </div>
+      <nav class="space-y-3">
+        <h4 class="text-sm font-semibold">Links</h4>
+        <ul class="space-y-2 text-sm text-[var(--brand-muted)]">
+          <li><a href="index.html" class="hover:text-white">Inicio</a></li>
+          <li><a href="tienda.html" class="hover:text-white">Tienda</a></li>
+          <li><a href="sobre.html" class="hover:text-white">Sobre Mara</a></li>
+          <li><a href="contacto.html" class="hover:text-white">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="space-y-3">
+        <h4 class="text-sm font-semibold">Contacto</h4>
+        <ul class="space-y-2 textwa.me/573155964247-sm text-[var(--brand-muted)]">
+          <li>WhatsApp: <a href="https://wa.me/573155964247?text=Hola%20Dariela,%20quiero%20hacer%20un%20pedido" class="hover:text-white">315 596 4247</a></li>
+          <li>Instagram: <a href="https://instagram.com/marasporfit_" target="_blank" rel="noopener" class="hover:text-white">@marasporfit_</a></li>
+        </ul>
+      </div>
+      <div class="md:col-span-1"></div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-6 py-6 text-xs text-[var(--brand-muted)] flex items-center justify-between gap-4">
+        <p>© 2025 Mara. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Menú móvil accesible -->
+  <script>
+    (function () {
+      const btn = document.getElementById('menuBtn');
+      const menu = document.getElementById('mobileMenu');
+      if (!btn || !menu) return;
+      const firstLink = menu.querySelector('a');
+      function openMenu(){ menu.classList.remove('hidden'); menu.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true'); firstLink && firstLink.focus(); }
+      function closeMenu(){ menu.classList.add('hidden'); menu.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false'); btn.focus(); }
+      btn.addEventListener('click', () => { menu.classList.contains('hidden') ? openMenu() : closeMenu(); });
+      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.classList.contains('hidden')) closeMenu(); });
+
+      // Hacer tarjetas de Colección Destacada clicables (imagen, contenido y Enter)
+      try {
+        const cards = document.querySelectorAll('#tienda .ti-carousel-track > article');
+        cards.forEach(card => {
+          const id = card.getAttribute('data-id');
+          const href = id ? `producto.html?id=${id}` : 'producto.html';
+          card.classList.add('click-card');
+          const img = card.querySelector('.img-ph');
+          if (img) {
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', () => { window.location.href = href; });
+          }
+          card.setAttribute('role','link');
+          card.setAttribute('tabindex','0');
+          card.addEventListener('click', (ev) => {
+            if (ev.target.closest('a')) return; // no interferir con links internos
+            window.location.href = href;
+          });
+          card.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') window.location.href = href; });
+        });
+      } catch {}
+    })();
+
+    // Lightbox: amplía imágenes del lookbook con navegación
+    window.addEventListener('load', function(){
+      const tiles = document.querySelectorAll('#lookbook .grid > div');
+      if (!tiles.length) return;
+      const urls = Array.from(tiles).map(el => {
+        const bg = getComputedStyle(el).backgroundImage || '';
+        const m = bg.match(/url\(["']?(.*?)["']?\)/);
+        return m ? m[1] : null;
+      }).filter(Boolean);
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lbImg');
+      const prev = document.getElementById('lbPrev');
+      const next = document.getElementById('lbNext');
+      const close = document.getElementById('lbClose');
+      if (!lb || !img || !prev || !next || !close) return;
+      let index = 0;
+      function open(i){ index = i; update(); lb.classList.remove('hidden'); lb.setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); close.focus(); }
+      function closeLb(){ lb.classList.add('hidden'); lb.setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); }
+      function update(){ if (!urls.length) return; if (index<0) index=0; if (index>urls.length-1) index=urls.length-1; img && (img.src = urls[index]); }
+      tiles.forEach((t,i)=>{ t.style.cursor='zoom-in'; t.addEventListener('click',()=>open(i)); });
+      prev.addEventListener('click',()=>{ if(index>0){ index--; update(); } });
+      next.addEventListener('click',()=>{ if(index<urls.length-1){ index++; update(); } });
+      close.addEventListener('click', closeLb);
+      lb.addEventListener('click', (e)=>{ if (e.target === lb) closeLb(); });
+      document.addEventListener('keydown', (e)=>{
+        if (lb.classList.contains('hidden')) return;
+        if (e.key === 'Escape') closeLb();
+        if (e.key === 'ArrowLeft' && index>0) { index--; update(); }
+        if (e.key === 'ArrowRight' && index<urls.length-1) { index++; update(); }
+      });
+    });
+  </script>
+
+  <!-- Lightbox Lookbook -->
+  <div id="lightbox" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog" aria-label="Vista ampliada de lookbook">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <img id="lbImg" src="" alt="Lookbook" class="max-w-[90vw] max-h-[90vh] rounded-xl shadow-2xl" />
+    </div>
+    <!-- Controles -->
+    <button id="lbClose" aria-label="Cerrar" class="absolute top-4 right-4 rounded-full p-2 bg-white/10 text-white hover:bg-white/20">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+    </button>
+    <button id="lbPrev" aria-label="Anterior" class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full p-2 bg-white/10 text-white hover:bg-white/20">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+    </button>
+    <button id="lbNext" aria-label="Siguiente" class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-2 bg-white/10 text-white hover:bg-white/20">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+    </button>
+  </div>
+
+  <!-- Animaciones y efectos -->
+  <script src="assets/anim.js"></script>
+
+  <!-- Rotación de imágenes al hover en Colección Destacada -->
+  <script>
+    window.addEventListener('DOMContentLoaded', function(){
+      try{
+        if (!Array.isArray(window.PRODUCTS)) return;
+        const cards = document.querySelectorAll('#tienda .ti-carousel-track > article[data-id]');
+        if (!cards.length) return;
+        const byId = new Map(window.PRODUCTS.map(p => [p && p.id, p]));
+        cards.forEach(card => {
+          const id = card.getAttribute('data-id');
+          const p = byId.get(id);
+          const imgDiv = card.querySelector('.img-ph');
+          if (!p || !imgDiv || !Array.isArray(p.images) || p.images.length === 0) return;
+          // Inicial: primera imagen del catálogo
+          imgDiv.style.background = `url('${p.images[0]}') center/cover`;
+          if (p.images.length < 2) return;
+          let idx = 0, to = null;
+          const base = p.images[0];
+          function fadeTo(nextUrl){
+            const overlay = document.createElement('div');
+            overlay.className = 'img-fade';
+            overlay.style.backgroundImage = `url('${nextUrl}')`;
+            imgDiv.appendChild(overlay);
+            void overlay.offsetHeight; // reflow
+            overlay.style.opacity = '1';
+            setTimeout(()=>{ imgDiv.style.background = `url('${nextUrl}') center/cover`; overlay.remove(); }, 280);
+          }
+          function step(){ idx = (idx+1) % p.images.length; fadeTo(p.images[idx]); }
+          function start(){ if (to) return; to = setInterval(step, 1100); }
+          function stop(){ if (to) { clearInterval(to); to = null; } imgDiv.style.background = `url('${base}') center/cover`; idx = 0; }
+          card.addEventListener('mouseenter', start);
+          card.addEventListener('mouseleave', stop);
+          card.addEventListener('focusin', start);
+          card.addEventListener('focusout', stop);
+        });
+      }catch{}
+    });
+  </script>
+
+  <!-- Header dinámico + WhatsApp flotante -->
+  <script src="assets/header-scroll.js" defer></script>
+  <script src="assets/whatsapp.js" defer></script>
+
+  <!-- Actualiza título y aria-label de la sección de destacados a "Nueva Colección" -->
+  <script>
+    (function(){
+      const h2 = document.querySelector('#tienda h2');
+      if (h2) h2.textContent = 'Nueva Colección';
+      const track = document.getElementById('tiTrack');
+      if (track) track.setAttribute('aria-label','Nueva colección');
+    })();
+  </script>
+
+</body>
+</html>

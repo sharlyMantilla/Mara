@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobre Mara</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/site.css" />
+  <script src="assets/cart.js"></script>
+  <!-- Mobile UI colors -->
+  <meta name="theme-color" content="#0b0b0c" />
+  <meta name="msapplication-TileColor" content="#0b0b0c" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <!-- SEO / Social -->
+  <meta name="description" content="Conoce la historia y valores de Mara: fuerza y feminidad en cada prenda." />
+  <link rel="canonical" href="https://marasporfit.netlify.app/MARA/sobre.html" />
+  <meta property="og:locale" content="es_CO" />
+  <meta property="og:site_name" content="Mara" />
+  <meta property="og:title" content="Sobre Mara" />
+  <meta property="og:description" content="MÃ¡s que ropa, una declaraciÃ³n de identidad." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://marasporfit.netlify.app/MARA/sobre.html" />
+  <meta property="og:image" content="https://marasporfit.netlify.app/MARA/link_imagen.jpg" />`n  <meta property="og:image:width" content="1200" />`n  <meta property="og:image:height" content="630" />`n  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:alt" content="Sobre Mara" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sobre Mara" />
+  <meta name="twitter:description" content="MÃ¡s que ropa, una declaraciÃ³n de identidad." />
+  <meta name="twitter:image" content="https://marasporfit.netlify.app/MARA/link_imagen.jpg" />
+  <link rel="icon" type="image/svg+xml" href="icono.svg" />
+  <style>
+    /* imagen sobre */
+    #sobre .img-ph { background:url('productos/life style.jpg') center/cover; transform: scaleX(-1); }
+    #sobre .img-ph span { display:none; }
+  </style>
+</head>
+<body class="bg-[var(--brand-bg)] text-[var(--brand-text)] overflow-x-hidden">
+  <!-- Header -->
+  <header class="fixed top-0 inset-x-0 z-40 bg-black/50 backdrop-blur border-b border-white/10">
+    <div class="max-w-7xl mx-auto h-16 px-6 flex items-center justify-between">
+      <a href="index.html" class="inline-flex items-center gap-3 font-extrabold tracking-tight">
+        <img src="logo.svg" alt="Mara" class="h-7 w-auto" />
+      </a>
+      <nav class="hidden md:flex items-center gap-12 text-sm text-[var(--brand-muted)]">
+        <a href="index.html" class="hover:text-white">Inicio</a>
+        <a href="tienda.html" class="hover:text-white">Tienda</a>
+        <a href="sobre.html" class="text-white">Sobre Mara</a>
+        <a href="contacto.html" class="hover:text-white">Contacto</a>
+        <a href="carrito.html" class="relative hover:text-white" aria-label="Carrito">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-6 w-6">
+            <path d="M3 3h2l.4 2H21l-2 8H7L5 5H3z"/>
+            <circle cx="9" cy="19" r="2"/>
+            <circle cx="17" cy="19" r="2"/>
+          </svg>
+          <span class="sr-only">Carrito</span>
+          <span class="js-cart-count absolute -top-2 -right-3 hidden rounded-full px-2 py-[2px] text-[10px] font-semibold bg-[var(--brand-primary)] text-black">0</span>
+        </a>
+      </nav>
+      <button id="menuBtn" aria-controls="mobileMenu" aria-expanded="false" aria-label="Abrir menÃº"
+        class="md:hidden inline-flex items-center justify-center rounded-lg p-2 ring-1 ring-white/10">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div id="mobileMenu" aria-hidden="true" class="md:hidden hidden border-t border-white/10">
+      <nav class="px-6 py-4 grid gap-3 text-[var(--brand-muted)]">
+        <a href="index.html" class="hover:text-white">Inicio</a>
+        <a href="tienda.html" class="hover:text-white">Tienda</a>
+        <a href="sobre.html" class="text-white">Sobre Mara</a>
+        <a href="contacto.html" class="hover:text-white">Contacto</a>
+        <a href="carrito.html" class="hover:text-white">Carrito</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <section id="sobre" class="bg-white text-zinc-900">
+      <div class="max-w-7xl mx-auto px-6 py-16 grid gap-8 md:grid-cols-2 md:items-center">
+        <div class="space-y-4">
+          <h1 class="text-2xl md:text-3xl font-bold">MÃ¡s que ropa, una declaraciÃ³n de identidad.</h1>
+          <p class="text-zinc-600">Mara nace de la uniÃ³n entre fuerza y feminidad. Creemos que tu estilo refleja quiÃ©n eres y cÃ³mo eliges superar cada obstÃ¡culo. DiseÃ±amos prendas para acompaÃ±arte en cada paso de tu entrenamiento y de tu vida.</p>
+          <p class="text-zinc-600">DiseÃ±o consciente, materiales cÃ³modos y cortes que favorecen tu silueta â€” para que entrenes con confianza, te muevas con libertad y te veas increÃ­ble dentro y fuera del gym.</p>
+        </div>
+        <div class="aspect-[4/3] img-ph rounded-2xl border border-zinc-200 bg-zinc-50">
+          <span class="text-zinc-600">foto BN lifestyle</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="contacto" class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-6 py-16 grid gap-10 md:grid-cols-4">
+      <div class="space-y-3">
+        <div class="inline-flex items-center gap-3 font-extrabold tracking-tight">
+          <img src="logo.svg" alt="Mara" class="h-7 w-auto" />
+        </div>
+        <p class="text-sm text-[var(--brand-muted)]">Ropa deportiva femenina para entrenar con confianza.</p>
+      </div>
+      <nav class="space-y-3">
+        <h4 class="text-sm font-semibold">Links</h4>
+        <ul class="space-y-2 text-sm text-[var(--brand-muted)]">
+          <li><a href="index.html" class="hover:text-white">Inicio</a></li>
+          <li><a href="tienda.html" class="hover:text-white">Tienda</a></li>
+          <li><a href="sobre.html" class="hover:text-white">Sobre Mara</a></li>
+          <li><a href="contacto.html" class="hover:text-white">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="space-y-3">
+        <h4 class="text-sm font-semibold">Contacto</h4>
+        <ul class="space-y-2 text-sm text-[var(--brand-muted)]">
+          <li>WhatsApp: <a href="https://wa.me/573155964247?text=Hola%20Dariela,%20quiero%20hacer%20un%20pedido" class="hover:text-white">315 596 4247</a></li>
+          <li>Instagram: <a href="https://instagram.com/marasporfit_" target="_blank" rel="noopener" class="hover:text-white">@marasporfit_</a></li>
+        </ul>
+      </div>
+      <div class="md:col-span-1"></div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-6 py-6 text-xs text-[var(--brand-muted)] flex items-center justify-between">
+        <p>Â© 2025 Mara. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const btn = document.getElementById('menuBtn');
+      const menu = document.getElementById('mobileMenu');
+      if (!btn || !menu) return;
+      const firstLink = menu.querySelector('a');
+      function openMenu(){ menu.classList.remove('hidden'); menu.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true'); firstLink && firstLink.focus(); }
+      function closeMenu(){ menu.classList.add('hidden'); menu.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false'); btn.focus(); }
+      btn.addEventListener('click', () => { menu.classList.contains('hidden') ? openMenu() : closeMenu(); });
+      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.classList.contains('hidden')) closeMenu(); });
+    })();
+  </script>
+  <script src="assets/header-scroll.js" defer></script>
+  <script src="assets/whatsapp.js" defer></script>
+</body>
+</html>
+

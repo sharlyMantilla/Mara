@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carrito y Checkout | Mara</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/site.css" />
+  <script src="assets/products.js"></script>
+  <script src="assets/cart.js"></script>
+  <script src="assets/brand-cta.js" defer></script>
+  <meta name="theme-color" content="#0b0b0c" />
+  <link rel="icon" type="image/svg+xml" href="icono.svg" />
+  <style>
+    .btn-outline { border: 1px solid #e5e7eb; }
+    .field label { display:block; font-size:12px; color:#6b7280; margin-bottom:4px; }
+    .field input, .field textarea, .field select { width:100%; border:1px solid #e5e7eb; border-radius:0.5rem; padding:0.5rem 0.75rem; color:#0b0b0c; background:#fff; }
+  </style>
+</head>
+<body class="bg-[var(--brand-bg)] text-[var(--brand-text)] overflow-x-hidden">
+  <header class="fixed top-0 inset-x-0 z-40 bg-black/50 backdrop-blur border-b border-white/10">
+    <div class="max-w-7xl mx-auto h-16 px-6 flex items-center justify-between">
+      <a href="index.html" class="inline-flex items-center gap-3 font-extrabold tracking-tight">
+        <img src="logo.svg" alt="Mara" class="h-7 w-auto" />
+      </a>
+      <nav class="hidden md:flex items-center gap-12 text-sm text-[var(--brand-muted)]">
+        <a href="index.html" class="hover:text-white">Inicio</a>
+        <a href="tienda.html" class="hover:text-white">Tienda</a>
+        <a href="sobre.html" class="hover:text-white">Sobre Mara</a>
+        <a href="contacto.html" class="hover:text-white">Contacto</a>
+        <a href="carrito.html" class="relative text-white" aria-label="Carrito">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-6 w-6">
+            <path d="M3 3h2l.4 2H21l-2 8H7L5 5H3z"/>
+            <circle cx="9" cy="19" r="2"/>
+            <circle cx="17" cy="19" r="2"/>
+          </svg>
+          <span class="sr-only">Carrito</span>
+          <span class="js-cart-count absolute -top-2 -right-3 hidden rounded-full px-2 py-[2px] text-[10px] font-semibold bg-[var(--brand-primary)] text-black">0</span>
+        </a>
+      </nav>
+      <button id="menuBtn" aria-controls="mobileMenu" aria-expanded="false" aria-label="Abrir menú"
+        class="md:hidden inline-flex items-center justify-center rounded-lg p-2 ring-1 ring-white/10">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div id="mobileMenu" aria-hidden="true" class="md:hidden hidden border-t border-white/10">
+      <nav class="px-6 py-4 grid gap-3 text-[var(--brand-muted)]">
+        <a href="index.html" class="hover:text-white">Inicio</a>
+        <a href="tienda.html" class="hover:text-white">Tienda</a>
+        <a href="sobre.html" class="hover:text-white">Sobre Mara</a>
+        <a href="contacto.html" class="hover:text-white">Contacto</a>
+        <a href="carrito.html" class="text-white">Carrito</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <section class="bg-white text-zinc-900">
+      <div class="max-w-7xl mx-auto px-6 py-10">
+        <h1 class="text-2xl md:text-3xl font-bold">Carrito y Checkout</h1>
+        <p class="text-zinc-600 mt-2">Revisa tu pedido y completa tus datos.</p>
+      </div>
+    </section>
+
+    
+
+    <section class="bg-white text-zinc-900">
+      <div class="max-w-7xl mx-auto px-6 pb-16 grid gap-8 md:grid-cols-3 md:items-start">
+        <div class="md:col-span-2 space-y-4">
+          <div id="cartList" class="space-y-3"></div>
+        </div>
+        <aside class="space-y-4">
+          <div class="rounded-2xl border border-zinc-200 bg-white p-5 space-y-4">
+            <h2 class="text-lg font-semibold">Tus datos</h2>
+            <div class="field"><label>Nombre</label><input id="fName" type="text" placeholder="Tu nombre" autocomplete="name" required></div>
+            <div class="field"><label>WhatsApp</label><input id="fPhone" type="tel" placeholder="310 000 0000" autocomplete="tel" required></div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="field"><label>Departamento</label><select id="fDepto"></select></div>
+              <div class="field">
+                <label>Ciudad</label>
+                <select id="fCity"></select>
+              </div>
+            </div>
+            <div id="cityOtherWrap" class="field hidden"><label>Ciudad (otra)</label><input id="fCityOther" type="text" placeholder="Escribe tu ciudad" autocomplete="address-level1"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="field"><label>Barrio</label><input id="fBarrio" type="text" placeholder="Barrio" autocomplete="address-level2"></div>
+              <div class="field"><label>Dirección</label><input id="fAddr" type="text" placeholder="Calle/Carrera, número, referencia" autocomplete="street-address"></div>
+            </div>
+            <!-- Envío a domicilio implícito -->
+            <div class="field"><label>Observaciones (talla, color)</label><textarea id="fNotes" rows="3" placeholder="Ej: set oversize Talla M, color negro"></textarea></div>
+            <p class="text-xs text-zinc-500">Enviamos a todo Colombia con Interrapidísimo.</p>
+          </div>
+
+          <div class="rounded-2xl border border-zinc-200 bg-white p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-zinc-600">Total</span>
+              <strong id="cartTotal" class="text-lg">$0</strong>
+            </div>
+            <a id="btnWhatsapp" target="_blank" rel="noopener" class="block text-center rounded-xl px-6 py-3 font-semibold btn-primary">Confirmar por WhatsApp</a>
+            <a id="btnNequi" href="https://tu-link-de-cobro-nequi" target="_blank" rel="noopener" class="block text-center rounded-xl px-6 py-3 font-semibold btn-outline">Pagar con Nequi</a>
+            <button id="btnClear" class="w-full rounded-xl px-6 py-2 text-sm text-zinc-600 border border-zinc-200 hover:bg-zinc-50">Vaciar carrito</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Beneficios de compra (mismo bloque que en producto, adaptado a vista clara) -->
+    <section class="bg-white text-zinc-900">
+      <div class="max-w-7xl mx-auto px-6 pb-16">
+        <div class="rounded-2xl border border-zinc-200 bg-white p-6 md:p-8">
+          <h2 class="text-xl md:text-2xl font-bold mb-6 inline-flex items-center gap-2">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--brand-primary)] text-black">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true"><path d="M12 2l7 4v5c0 5-3.4 9.1-7 11-3.6-1.9-7-6-7-11V6l7-4z"/></svg>
+            </span>
+            <span>Compra con tranquilidad, elige Mara.</span>
+          </h2>
+          <div class="grid gap-6 md:grid-cols-2">
+            <!-- 1. Envíos -->
+            <div class="flex items-start gap-4">
+              <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--brand-primary)] text-black">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+                  <path d="M2 7.5h10v6H2zM12 7.5h4l3 3v3h-7zM6 17.5a2 2 0 110 4 2 2 0 010-4zm9 0a2 2 0 110 4 2 2 0 010-4z"/>
+                </svg>
+              </span>
+              <div>
+                <h3 class="font-semibold">Envíos rápidos a todo el país</h3>
+                <p class="text-sm text-zinc-600">Trabajamos con Interrapidísimo para que recibas tus prendas sin complicaciones.</p>
+              </div>
+            </div>
+            <!-- 2. Pago contraentrega -->
+            <div class="flex items-start gap-4">
+              <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--brand-primary)] text-black">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+                  <path d="M3 6h18v12H3zM6 9h12M6 15h5"/>
+                </svg>
+              </span>
+              <div>
+                <h3 class="font-semibold">Pago contraentrega seguro</h3>
+                <p class="text-sm text-zinc-600">Pagas cuando recibes tu pedido, sin anticipos ni riesgos.</p>
+              </div>
+            </div>
+            <!-- 3. Compra garantizada -->
+            <div class="flex items-start gap-4">
+              <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--brand-primary)] text-black">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+                  <path d="M12 2l7 4v5c0 5-3.4 9.1-7 11-3.6-1.9-7-6-7-11V6l7-4z"/>
+                  <path d="M9.5 12.5l1.8 1.8L15 10.4" stroke="#0b0b0c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div>
+                <h3 class="font-semibold">Compra garantizada</h3>
+                <p class="text-sm text-zinc-600">Interrapidísimo custodia el dinero y solo lo libera cuando confirmas satisfacción.</p>
+              </div>
+            </div>
+            <!-- 4. Prendas seleccionadas -->
+            <div class="flex items-start gap-4">
+              <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--brand-primary)] text-black">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+                  <path d="M5 12l2-6 2 6-2 6zM11 10l2-6 2 6-2 6zM17 12l2-6 2 6-2 6z"/>
+                </svg>
+              </span>
+              <div>
+                <h3 class="font-semibold">Prendas seleccionadas para ti</h3>
+                <p class="text-sm text-zinc-600">Escogemos lo mejor en ropa deportiva femenina para que entrenes con estilo y confianza.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="contacto" class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-6 py-16 grid gap-10 md:grid-cols-4">
+      <div class="space-y-3">
+        <div class="inline-flex items-center gap-3 font-extrabold tracking-tight">
+          <img src="logo.svg" alt="Mara" class="h-7 w-auto" />
+        </div>
+        <p class="text-sm text-[var(--brand-muted)]">Ropa deportiva femenina para entrenar con confianza.</p>
+      </div>
+      <nav class="space-y-3">
+        <h4 class="text-sm font-semibold">Links</h4>
+        <ul class="space-y-2 text-sm text-[var(--brand-muted)]">
+          <li><a href="index.html" class="hover:text-white">Inicio</a></li>
+          <li><a href="tienda.html" class="hover:text-white">Tienda</a></li>
+          <li><a href="sobre.html" class="hover:text-white">Sobre Mara</a></li>
+          <li><a href="contacto.html" class="hover:text-white">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="space-y-3">
+        <h4 class="text-sm font-semibold">Contacto</h4>
+        <ul class="space-y-2 text-sm text-[var(--brand-muted)]">
+          <li>WhatsApp: <a href="https://wa.me/573155964247?text=Hola%20Dariela,%20quiero%20hacer%20un%20pedido" class="hover:text-white">315 596 4247</a></li>
+          <li>Instagram: <a href="https://instagram.com/marasporfit_" target="_blank" rel="noopener" class="hover:text-white">@marasporfit_</a></li>
+        </ul>
+      </div>
+      <div class="md:col-span-1"></div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-6 py-6 text-xs text-[var(--brand-muted)] flex items-center justify-between gap-4">
+        <p>© 2025 Mara. Todos los derechos reservados.</p>
+        <a href="https://sharly-brands.netlify.app" target="_blank" rel="noopener" class="inline-flex items-center gap-2 hover:text-white">
+          <img src="logo sharly brands.svg" alt="Sharly Brands" class="h-4 w-auto" />
+          <span>Hecho por Sharly Brands — Ver portafolio</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const btn = document.getElementById('menuBtn');
+      const menu = document.getElementById('mobileMenu');
+      if (!btn || !menu) return;
+      const firstLink = menu.querySelector('a');
+      function openMenu(){ menu.classList.remove('hidden'); menu.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true'); firstLink && firstLink.focus(); }
+      function closeMenu(){ menu.classList.add('hidden'); menu.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false'); btn.focus(); }
+      btn.addEventListener('click', () => { menu.classList.contains('hidden') ? openMenu() : closeMenu(); });
+      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.classList.contains('hidden')) closeMenu(); });
+    })();
+  </script>
+
+  <script>
+    (function(){
+      const listEl = document.getElementById('cartList');
+      const totalEl = document.getElementById('cartTotal');
+      const btnWa = document.getElementById('btnWhatsapp');
+      const btnClear = document.getElementById('btnClear');
+      const fmt = window.priceToCOP || ((n)=>`$${n}`);
+
+      // Ubicaciones de Colombia (catálogo)
+      const OTHER = 'Otra ciudad...';
+      const BASE_CO = {
+        'Amazonas': ['Leticia'],
+        'Antioquia': ['Medellín','Envigado','Bello','Itagüí','La Estrella','Sabaneta','Rionegro','Copacabana','Girardota','Apartadó','Turbo'],
+        'Arauca': ['Arauca','Saravena','Tame'],
+        'Atlántico': ['Barranquilla','Soledad','Malambo','Galapa','Puerto Colombia','Sabanalarga'],
+        'Bogotá D.C.': ['Bogotá'],
+        'Bolívar': ['Cartagena','Turbaco','Arjona','Magangué','El Carmen de Bolívar'],
+        'Boyacá': ['Tunja','Duitama','Sogamoso','Chiquinquirá','Nobsa'],
+        'Caldas': ['Manizales','Villamaría','Chinchiná','La Dorada','Neira'],
+        'Caquetá': ['Florencia'],
+        'Casanare': ['Yopal','Aguazul','Villanueva','Monterrey'],
+        'Cauca': ['Popayán','Santander de Quilichao','Puerto Tejada'],
+        'Cesar': ['Valledupar','Aguachica','Bosconia','Curumaní'],
+        'Chocó': ['Quibdó'],
+        'Córdoba': ['Montería','Cereté','Lorica','Sahagún','Planeta Rica'],
+        'Cundinamarca': ['Soacha','Chía','Zipaquirá','Facatativá','Funza','Mosquera','Madrid','Girardot','Fusagasugá'],
+        'Guainía': ['Inírida'],
+        'Guaviare': ['San José del Guaviare'],
+        'Huila': ['Neiva','Pitalito','Garzón'],
+        'La Guajira': ['Riohacha','Maicao','Uribia'],
+        'Magdalena': ['Santa Marta','Ciénaga','Fundación'],
+        'Meta': ['Villavicencio','Acacías','Granada','Puerto López'],
+        'Nariño': ['Pasto','Ipiales','Tumaco'],
+        'Norte de Santander': ['Cúcuta','Villa del Rosario','Los Patios','Ocaña'],
+        'Putumayo': ['Mocoa','Puerto Asís','Orito'],
+        'Quindío': ['Armenia','Calarcá','La Tebaida','Montenegro','Quimbaya'],
+        'Risaralda': ['Pereira','Dosquebradas','La Virginia','Santa Rosa de Cabal'],
+        'San Andrés y Providencia': ['San Andrés'],
+        'Santander': ['Bucaramanga','Floridablanca','Girón','Piedecuesta','Barrancabermeja','San Gil'],
+        'Sucre': ['Sincelejo','Corozal','Tolú','Sampués'],
+        'Tolima': ['Ibagué','Espinal','Melgar','Honda'],
+        'Valle del Cauca': ['Cali','Palmira','Yumbo','Jamundí','Buga','Tuluá','Cartago','Buenaventura'],
+        'Vaupés': ['Mitú'],
+        'Vichada': ['Puerto Carreño']
+      };
+      let CO = BASE_CO;
+      async function loadCO(){
+        try {
+          const res = await fetch('assets/colombia-cities.json', {cache:'no-store'});
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data)) {
+              const obj = {};
+              data.forEach(it=>{ if(it && it.department && Array.isArray(it.cities)) obj[it.department] = it.cities; });
+              if (Object.keys(obj).length) return obj;
+            } else if (data && typeof data === 'object') {
+              return data;
+            }
+          }
+        } catch {}
+        return BASE_CO;
+      }
+
+      function productImg(id){
+        const p = (window.PRODUCTS||[]).find(x => x.id === id);
+        return (p && p.images && p.images[0]) ? p.images[0] : '';
+      }
+
+      function render(){
+        const cart = window.MaraCart.load();
+        if (!cart.length){
+          listEl.innerHTML = '<div class="rounded-2xl border border-zinc-200 bg-white p-6 text-center text-zinc-600">Tu carrito está vacío.</div>';
+          totalEl.textContent = fmt(0);
+          btnWa.classList.add('pointer-events-none','opacity-50');
+          return;
+        }
+        btnWa.classList.remove('pointer-events-none','opacity-50');
+        totalEl.textContent = fmt(window.MaraCart.total());
+        listEl.innerHTML = cart.map(item => {
+          const img = productImg(item.id);
+          const sub = (item.price||0)*(item.qty||1);
+          return `
+          <div class="rounded-2xl border border-zinc-200 bg-white p-4 flex items-center gap-4">
+            <div class="h-20 w-24 rounded-lg border border-zinc-200 bg-zinc-50" style="background:url('${img}') center/cover"></div>
+            <div class="flex-1">
+              <div class="font-semibold">${item.name}</div>
+              <div class="text-sm text-zinc-500">${fmt(item.price)}</div>
+              <div class="mt-2 flex items-center gap-2">
+                <button data-dec="${item.id}" class="h-8 w-8 rounded-lg border border-zinc-200">-</button>
+                <input data-qty="${item.id}" class="w-14 text-center rounded-lg border border-zinc-200" value="${item.qty}" />
+                <button data-inc="${item.id}" class="h-8 w-8 rounded-lg border border-zinc-200">+</button>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="font-semibold">${fmt(sub)}</div>
+              <button data-del="${item.id}" class="mt-2 text-sm text-red-600 hover:underline">Quitar</button>
+            </div>
+          </div>`;
+        }).join('');
+        hydrateEvents();
+        updateWA();
+      }
+
+      function hydrateEvents(){
+        listEl.querySelectorAll('[data-dec]').forEach(b=> b.addEventListener('click',()=>{ window.MaraCart.inc(b.getAttribute('data-dec'), -1); render(); }));
+        listEl.querySelectorAll('[data-inc]').forEach(b=> b.addEventListener('click',()=>{ window.MaraCart.inc(b.getAttribute('data-inc'), +1); render(); }));
+        listEl.querySelectorAll('[data-del]').forEach(b=> b.addEventListener('click',()=>{ window.MaraCart.remove(b.getAttribute('data-del')); render(); }));
+        listEl.querySelectorAll('[data-qty]').forEach(inp=> inp.addEventListener('change',()=>{ const id=inp.getAttribute('data-qty'); const v=parseInt(inp.value||'1',10); window.MaraCart.setQty(id, isNaN(v)?1:v); render(); }));
+      }
+
+      function updateWA(){
+        const name = document.getElementById('fName').value.trim() || '—';
+        const phone = document.getElementById('fPhone').value.trim() || '—';
+        const depto = document.getElementById('fDepto')?.value || '—';
+        const citySel = document.getElementById('fCity')?.value || '';
+        const cityOtherEl = document.getElementById('fCityOther');
+        const city = citySel === OTHER ? (cityOtherEl?.value.trim() || '—') : (citySel || '—');
+        const barrio = document.getElementById('fBarrio')?.value.trim() || '—';
+        const addr = document.getElementById('fAddr').value.trim() || '—';
+        const notes = document.getElementById('fNotes').value.trim() || '—';
+        const extra = [
+          `Nombre: ${name}`,
+          `WhatsApp: ${phone}`,
+          `Departamento: ${depto}`,
+          `Ciudad: ${city}`,
+          `Barrio: ${barrio}`,
+          `Dirección: ${addr}`,
+          `Obs: ${notes}`
+        ].join('\n');
+        btnWa.href = window.MaraCart.whatsappHref(extra);
+      }
+
+      ['fName','fPhone','fDepto','fCity','fCityOther','fBarrio','fAddr','fNotes'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.addEventListener('input', updateWA);
+      });
+      if (btnClear) btnClear.addEventListener('click', ()=>{ window.MaraCart.clear(); render(); });
+
+      // Inicializar selects de ubicación
+      (async function initLocation(){
+        const d = document.getElementById('fDepto');
+        const c = document.getElementById('fCity');
+        if (!d || !c) return;
+        CO = await loadCO();
+        d.innerHTML = Object.keys(CO).sort().map(name=>`<option value="${name}">${name}</option>`).join('');
+        const otherWrap = document.getElementById('cityOtherWrap');
+        const otherInput = document.getElementById('fCityOther');
+        function renderCities(){
+          const sel = d.value; const cities = (CO[sel] || []).slice();
+          cities.push(OTHER);
+          c.innerHTML = cities.map(n=>`<option value="${n}">${n}</option>`).join('');
+          toggleOther();
+        }
+        function toggleOther(){
+          const isOther = c.value === OTHER;
+          if (isOther){ otherWrap.classList.remove('hidden'); otherInput?.focus(); }
+          else { otherWrap.classList.add('hidden'); }
+        }
+        d.addEventListener('change', ()=>{ renderCities(); updateWA(); });
+        c.addEventListener('change', ()=>{ toggleOther(); updateWA(); });
+        otherInput?.addEventListener('input', updateWA);
+        renderCities();
+      })();
+
+      render();
+    })();
+  </script>
+  <script src="assets/header-scroll.js" defer></script>
+  <script src="assets/whatsapp.js" defer></script>
+</body>
+</html>

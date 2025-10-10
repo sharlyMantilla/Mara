@@ -1,0 +1,152 @@
+:root {
+  /* Tema oscuro por defecto */
+  --brand-bg: #0b0b0c;
+  --brand-text: #e5e7eb;
+  --brand-muted: #d1d5db;
+  --brand-primary: #FFBE98; /* Peach Fuzz */
+}
+@media (min-width: 768px) {
+  /* Mantener mismo esquema en desktop para consistencia */
+  :root { --brand-bg: #0b0b0c; --brand-text: #e5e7eb; }
+}
+
+html { scroll-behavior: smooth; box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; }
+h1, h2 { font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; }
+:focus-visible { outline: 3px solid var(--brand-primary); outline-offset: 3px; }
+
+/* Responsivo base: evitar desbordes horizontales y escalar medios */
+html, body { max-width: 100%; overflow-x: hidden; }
+img, video, svg { max-width: 100%; height: auto; }
+iframe { max-width: 100%; }
+
+/* Tipografía fluida sin romper la identidad (proporciones suaves) */
+h1 { font-size: clamp(1.6rem, 1.2rem + 2.2vw, 2.5rem); line-height: 1.15; }
+h2 { font-size: clamp(1.25rem, 1.0rem + 1.4vw, 1.75rem); line-height: 1.2; }
+h3 { font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.25rem); line-height: 1.25; }
+p  { font-size: clamp(0.95rem, 0.92rem + 0.2vw, 1rem); }
+
+.img-ph { background: #eee; color:#777; display:grid; place-items:center; position: relative; overflow: hidden; }
+.btn-primary { background: var(--brand-primary); color:#111; }
+.btn-primary:hover { filter: brightness(0.95); }
+.btn-primary:active { transform: scale(0.98); }
+
+/* Tarjetas clicables */
+.click-card { cursor: pointer; }
+
+/* Pulso sutil al hover para tarjetas de producto */
+.card-hover { transition: transform .2s ease, box-shadow .2s ease; will-change: transform; }
+.card-hover:hover { animation: maraPulse 1.2s ease-in-out infinite; box-shadow: 0 12px 30px rgba(0,0,0,.12); }
+@keyframes maraPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.015); }
+  100% { transform: scale(1); }
+}
+/* Pulso más sutil en pantallas móviles */
+@keyframes maraPulseSm {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.008); }
+  100% { transform: scale(1); }
+}
+@media (max-width: 767.98px) {
+  .card-hover:hover { animation: maraPulseSm 1.3s ease-in-out infinite; }
+}
+
+/* Cross-fade entre vistas en hover */
+.img-fade {
+  position: absolute; inset: 0; opacity: 0; transition: opacity .28s ease;
+  background-position: center; background-size: cover; pointer-events: none; border-radius: inherit;
+}
+
+/* Cuando hay modal abierto, bloquea scroll del body */
+body.modal-open { overflow: hidden; }
+
+/* Header dinámico: oculta al bajar, muestra al subir */
+header.sticky-ready { transition: transform .25s ease; will-change: transform; }
+header.sticky-hide { transform: translateY(-100%); }
+
+/* Footer de alto contraste compartido */
+#contacto {
+  background: #0b0b0c;     /* negro Mara */
+  color: #e5e7eb;          /* texto claro predeterminado */
+  --brand-muted: #cbd5e1;  /* gris claro para secundarios */
+}
+#contacto a { color: #e5e7eb; }
+#contacto a:hover { color: #ffffff; }
+
+/* Footer CTA: clases auxiliares y comportamiento responsive */
+#contacto .foot-copy { opacity: .9; }
+#contacto .foot-cta img { display:block; }
+@media (max-width: 640px) {
+  #contacto .foot-copy { display: none; }
+  #contacto .foot-cta { font-size: 0.9rem; }
+}
+
+/* CTA efecto cian-magenta-amarillo en hover (solo el texto) */
+.cta-rainbow .t { transition: background-position .3s ease, color .2s ease; }
+.cta-rainbow:hover .t {
+  background-image: linear-gradient(90deg, #06b6d4, #db2777, #f59e0b);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Ocultar scrollbar en carruseles horizontales */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+/* Carruseles horizontales: suavizar desplazamiento y evitar rebotes */
+.snap-x { scroll-behavior: smooth; }
+/* Rejilla auto-llenado (opcional para listas) */
+.auto-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+@media (min-width: 640px) { .auto-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); } }
+@media (min-width: 1024px) { .auto-grid { gap: 1.25rem; } }
+
+/* Utilidades del hero (usadas en Home) */
+.hero-bg { background-image: url('../Bg_Movil.jpg'); }
+@media (min-width: 768px) {
+  .hero-bg { background-image: url('../Bg_Desktop.jpg'); }
+}
+.hero-min { min-height: calc(100dvh - 4rem); }
+@media (min-width: 768px) { .hero-min { min-height: 100vh; } }
+
+/* Ajustes móviles del hero */
+@media (max-width: 767.98px) {
+  #hero > div.absolute { padding-top: 26rem; }
+  /* Reducir apenas el H1 en móvil */
+  #hero h1 { font-size: 1.5rem; line-height: 1.2; }
+  .hero-min { min-height: calc(100dvh - 4rem + 4rem); }
+}
+/* Botón flotante de WhatsApp */
+.wa-btn {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 50;
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Paleta Mara */
+  background: var(--brand-primary);
+  color: #111; /* icono negro como en botón de producto */
+  /* Sin borde para un look más limpio */
+  border: none;
+  /* sombra para separar de fondos complejos */
+  box-shadow: 0 8px 24px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.15) inset;
+  transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
+}
+.wa-btn:hover { transform: translateY(-1px); filter: brightness(1.02); box-shadow: 0 12px 30px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.18) inset; }
+.wa-btn:active { transform: translateY(0); filter: brightness(0.99); }
+.wa-btn:focus-visible { outline: 3px solid #ffffff; outline-offset: 4px; }
+.wa-btn svg { width: 28px; height: 28px; display:block; }
+@media (min-width: 768px) {
+  .wa-btn { right: 24px; bottom: 24px; }
+}
+
+/* Lazy render for below-the-fold sections */
+#lookbook, #sobre { content-visibility: auto; contain-intrinsic-size: 600px; }
