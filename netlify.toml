@@ -2,6 +2,9 @@
 publish = "."
 command = ""
 
+[functions]
+  directory = "functions"
+
 [[redirects]]
   from = "/admin/*"
   to   = "/admin/index.html"
@@ -11,3 +14,5 @@ command = ""
   from = "/*"
   to   = "/index.html"
   status = 200
+
+  
