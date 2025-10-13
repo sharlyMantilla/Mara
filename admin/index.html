@@ -107,9 +107,16 @@
         console.error('Unhandled rejection:', e);
       });
     </script>
+    
 
     <!-- 🔄 Conexión directa con Decap CMS (GitHub OAuth) -->
     <script>window.CMS_MANUAL_INIT = true;</script>
     <script src="https://unpkg.com/decap-cms@3.7.2/dist/decap-cms.js"></script>
+    
+    <script>window.CMS_MANUAL_INIT = true;</script>
+    <script src="https://unpkg.com/decap-cms@^3.9.0/dist/decap-cms.js"></script>
+    <script>
+    CMS.init({ config: { load_config_file: true } });
+    </script>
   </body>
 </html>
