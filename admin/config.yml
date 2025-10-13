@@ -2,14 +2,14 @@ backend:
   name: github
   repo: sharlyyye/mara
   branch: main
+  base_url: "https://marasport.netlify.app"
+  auth_endpoint: "/.netlify/functions/decap-auth"
 
-media_folder: "assets/uploads"
-public_folder: "/assets/uploads"
+media_folder: "assets/uploads"     # donde se guardan las imágenes en el repo
+public_folder: "/assets/uploads"   # cómo se referencian desde la web
 
 publish_mode: editorial_workflow
 locale: es
-base_url: "https://marasport.netlify.app"
-auth_endpoint: "/.netlify/functions/decap-auth"
 
 collections:
   - name: catalogo
