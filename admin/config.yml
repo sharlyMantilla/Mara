@@ -1,51 +1,96 @@
 backend:
-  name: github
-  repo: sharlyMantilla/Mara
+  name: git-gateway
   branch: main
 
-media_folder: "assets/uploads"
-public_folder: "/assets/uploads"
-locale: "es"
+local_backend: true
 
+media_folder: MARA/assets/uploads
+public_folder: /assets/uploads
 
-media_folder: "assets/uploads"   # dónde se guardan las imágenes en el repo
-public_folder: "/assets/uploads" # cómo se referencian en la web
-
-locale: "es"
+locale: es
 
 collections:
-  - name: "catalogo"
-    label: "Catálogo"
+  - name: catalogo
+    label: Catalogo
     files:
-      - file: "data/products.json"
-        label: "Productos"
-        name: "products"
+      - file: MARA/data/products.json
+        format: json
+        label: Productos
+        name: products
         fields:
-          - label: "Productos"
-            name: "items"
-            widget: "list"
+          - label: Productos
+            name: items
+            widget: list
             collapsed: false
-            summary: "{{fields.nombre}} — ${{fields.precio}}"
+            summary: "{{fields.nombre}} - ${{fields.precio}}"
             fields:
-              - {label: "ID/Slug", name: "slug", widget: "string", hint: "ej: set-oversize-pushup-medias"}
-              - {label: "Nombre", name: "nombre", widget: "string"}
-              - {label: "Categoría", name: "categoria", widget: "select", options: ["Set","Leggings","Biker","Medias"]}
-              - {label: "Precio (COP)", name: "precio", widget: "number", value_type: "int", min: 0, step: 1000}
-              - {label: "Descripción corta", name: "descripcion_corta", widget: "text"}
-              - {label: "Descripción larga", name: "descripcion_larga", widget: "text"}
-              - label: "Tallas"
-                name: "tallas"
-                widget: "select"
+              - label: ID/Slug
+                name: slug
+                widget: string
+                hint: "ej: set-oversize-pushup-medias"
+              - label: Nombre
+                name: nombre
+                widget: string
+              - label: Categoria
+                name: categoria
+                widget: select
+                options:
+                  - Set
+                  - Leggings
+                  - Biker
+                  - Medias
+              - label: Precio (COP)
+                name: precio
+                widget: number
+                value_type: int
+                min: 0
+                step: 1000
+              - label: Descripcion corta
+                name: descripcion_corta
+                widget: text
+              - label: Descripcion larga
+                name: descripcion_larga
+                widget: text
+              - label: Tallas
+                name: tallas
+                widget: select
                 multiple: true
-                options: ["XS","S","M","L"]
-                default: ["S","M"]
-              - label: "Colores"
-                name: "colores"
-                widget: "list"
-                field: {label: "Color", name: "color", widget: "string"}
-              - label: "Imágenes"
-                name: "imagenes"
-                widget: "list"
-                field: {label: "URL de imagen", name: "url", widget: "image"}
-              - {label: "Destacado", name: "destacado", widget: "boolean", default: false}
-              - {label: "Estado", name: "estado", widget: "select", options: ["activo","borrador"], default: "activo"}
+                options:
+                  - XS
+                  - S
+                  - M
+                  - L
+                default:
+                  - S
+                  - M
+              - label: Colores
+                name: colores
+                widget: list
+                field:
+                  label: Color
+                  name: color
+                  widget: string
+              - label: Imagenes
+                name: imagenes
+                widget: list
+                field:
+                  label: URL de imagen
+                  name: url
+                  widget: image
+              - label: Destacado
+                name: destacado
+                widget: boolean
+                default: false
+              - label: Estado
+                name: estado
+                widget: select
+                options:
+                  - activo
+                  - borrador
+                default: activo
+
+            publish_mode: simple
+            slug:
+              encoding: unicode
+              clean_accents: false
+              sanitize_replacement: "-"

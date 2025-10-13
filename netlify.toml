@@ -1,9 +1,0 @@
-[build]
-publish = "MARA"
-command = ""
-
-# 🔁 Esto evita el error 404 en rutas internas como /admin
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200

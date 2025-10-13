@@ -5,9 +5,112 @@
     <title>Admin | Mara</title>
     <meta name="robots" content="noindex" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body { font-family: Arial, sans-serif; padding: 20px; }
+      .debug { background: #f5f5f5; padding: 10px; margin: 10px 0; border-left: 4px solid #007acc; }
+      .error { background: #ffe6e6; border-left-color: #cc0000; }
+      .success { background: #e6ffe6; border-left-color: #00cc00; }
+    </style>
   </head>
   <body>
+    <h1>Admin Panel - Mara</h1>
+    <div id="status" class="debug">Initializing Decap CMS...</div>
+    <div id="errors" class="debug error" style="display:none;"></div>
+
+    <!-- Decap CMS root element -->
+    <div id="nc-root"></div>
+
     <!-- Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      // Debug logging
+      console.log('Decap CMS script loaded');
+
+      // Check if config exists
+      fetch('./config.yml')
+        .then(response => {
+          if (response.ok) {
+            document.getElementById('status').innerHTML += '<br>✓ Config file found';
+            console.log('Config file accessible');
+          } else {
+            throw new Error('Config file not found');
+          }
+        })
+        .catch(error => {
+          document.getElementById('status').innerHTML += '<br>✗ Config file error: ' + error.message;
+          document.getElementById('errors').style.display = 'block';
+          document.getElementById('errors').innerHTML = 'Error loading config.yml: ' + error.message;
+          console.error('Config error:', error);
+        });
+
+      // Check if data file exists
+      fetch('../data/products.json')
+        .then(response => {
+          if (response.ok) {
+            document.getElementById('status').innerHTML += '<br>✓ Products data file found';
+            console.log('Products data accessible');
+          } else {
+            throw new Error('Products data file not found');
+          }
+        })
+        .catch(error => {
+          document.getElementById('status').innerHTML += '<br>✗ Products data error: ' + error.message;
+          document.getElementById('errors').style.display = 'block';
+          document.getElementById('errors').innerHTML += '<br>Error loading products.json: ' + error.message;
+          console.error('Products data error:', error);
+        });
+
+      // Check uploads folder
+      fetch('../assets/uploads/')
+        .then(response => {
+          document.getElementById('status').innerHTML += '<br>✓ Uploads folder accessible';
+          console.log('Uploads folder accessible');
+        })
+        .catch(error => {
+          document.getElementById('status').innerHTML += '<br>⚠ Uploads folder may not exist or be accessible';
+          console.warn('Uploads folder issue:', error);
+        });
+
+      // Decap CMS initialization with error handling
+      window.addEventListener('load', function() {
+        console.log('Window loaded, initializing CMS...');
+
+        if (typeof window.CMS === 'undefined') {
+          document.getElementById('status').innerHTML += '<br>✗ Decap CMS not loaded';
+          document.getElementById('errors').style.display = 'block';
+          document.getElementById('errors').innerHTML += '<br>Decap CMS script failed to load';
+          return;
+        }
+
+        try {
+          window.CMS.init();
+          document.getElementById('status').innerHTML += '<br>✓ CMS initialized successfully';
+          console.log('CMS initialized');
+        } catch (error) {
+          document.getElementById('status').innerHTML += '<br>✗ CMS initialization failed';
+          document.getElementById('errors').style.display = 'block';
+          document.getElementById('errors').innerHTML += '<br>CMS init error: ' + error.message;
+          console.error('CMS init error:', error);
+        }
+      });
+
+      // Global error handler
+      window.addEventListener('error', function(e) {
+        document.getElementById('errors').style.display = 'block';
+        document.getElementById('errors').innerHTML += '<br>Global error: ' + e.message;
+        console.error('Global error:', e);
+      });
+
+      // Unhandled promise rejection handler
+      window.addEventListener('unhandledrejection', function(e) {
+        document.getElementById('errors').style.display = 'block';
+        document.getElementById('errors').innerHTML += '<br>Unhandled promise rejection: ' + e.reason;
+        console.error('Unhandled rejection:', e);
+      });
+    </script>
+    <!-- Netlify Identity widget (for production Git Gateway login) -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <!-- Pin a stable Decap CMS version to avoid DOM errors -->
+    <script>window.CMS_MANUAL_INIT = true;</script>
+    <script src="https://unpkg.com/decap-cms@3.7.2/dist/decap-cms.js"></script>
   </body>
 </html>
