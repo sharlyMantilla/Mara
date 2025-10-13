@@ -107,9 +107,8 @@
         console.error('Unhandled rejection:', e);
       });
     </script>
-    <!-- Netlify Identity widget (for production Git Gateway login) -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <!-- Pin a stable Decap CMS version to avoid DOM errors -->
+
+    <!-- 🔄 Conexión directa con Decap CMS (GitHub OAuth) -->
     <script>window.CMS_MANUAL_INIT = true;</script>
     <script src="https://unpkg.com/decap-cms@3.7.2/dist/decap-cms.js"></script>
   </body>
