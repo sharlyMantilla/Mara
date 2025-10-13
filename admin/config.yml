@@ -1,12 +1,12 @@
 backend:
   name: github
-  repo: sharlyyye/mara        # 👈 Cambia esto si tu repo tiene otro nombre
+  repo: sharlyyye/mara
   branch: main
 
-media_folder: "assets/uploads"    # Carpeta donde se guardan las imágenes en tu repo
-public_folder: "/assets/uploads"  # Ruta pública desde el sitio
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
 
-publish_mode: editorial_workflow  # (opcional) Mantiene revisiones antes de publicar
+publish_mode: editorial_workflow
 locale: es
 base_url: "https://marasport.netlify.app"
 auth_endpoint: "/.netlify/functions/decap-auth"
