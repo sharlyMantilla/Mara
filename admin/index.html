@@ -118,5 +118,13 @@
     <script>
     CMS.init({ config: { load_config_file: true } });
     </script>
-  </body>
+     <!-- Inicializa Decap CMS (una sola vez) -->
+<script>window.CMS_MANUAL_INIT = true;</script>
+<script src="https://unpkg.com/decap-cms@3.9.1/dist/decap-cms.js"></script>
+<script>
+  // No dupliques esta llamada
+  CMS.init({ config: { load_config_file: true } });
+</script>
+
+</body>
 </html>
