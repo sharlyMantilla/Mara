@@ -8,7 +8,6 @@ function siteOrigin(event) {
 }
 
 exports.handler = async function (event) {
-  // CORS preflight
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 204,
@@ -30,14 +29,11 @@ exports.handler = async function (event) {
   const params = new URLSearchParams(event.queryStringParameters || {});
   const code = params.get("code");
 
-  // 1) Sin ?code -> redirige a GitHub (autorización)
   if (!code) {
     const authorize = new URL("https://github.com/login/oauth/authorize");
     authorize.searchParams.set("client_id", client_id);
     authorize.searchParams.set("redirect_uri", redirect_uri);
-    // usa "public_repo" si tu repo es público; "repo" para privados
     authorize.searchParams.set("scope", "repo");
-
     return {
       statusCode: 302,
       headers: {
@@ -49,53 +45,46 @@ exports.handler = async function (event) {
     };
   }
 
-  // 2) Con ?code -> intercambia por access_token
   try {
     const resp = await fetch("https://github.com/login/oauth/access_token", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({ client_id, client_secret, code, redirect_uri }),
     });
-
     const data = await resp.json();
 
     if (!data.access_token) {
       return {
         statusCode: 401,
         headers: { "Access-Control-Allow-Origin": allowOrigin },
-        body: JSON.stringify({
-          error: "No se recibió access_token desde GitHub",
-          details: data,
-        }),
+        body: JSON.stringify({ error: "No access_token", details: data }),
       };
     }
 
-    // HTML del popup: envía el token y espera un instante antes de cerrar
     const html = `<!doctype html>
 <html><body>
 <script>
-  (function () {
-    try {
-      var token = ${JSON.stringify(data.access_token)};
-      var msg = { token: token, provider: "github" };
-      // 1) Intenta con el origin exacto
-      try { (window.opener || window.parent).postMessage(msg, "${origin}"); } catch (e) {}
-      // 2) Y también a cualquier origin (algunos builds de Decap lo esperan así)
-      try { (window.opener || window.parent).postMessage(msg, "*"); } catch (e) {}
+  (function() {
+    var token = ${JSON.stringify(data.access_token)};
+    var opener = (window.opener || window.parent);
 
-      // Espera ~800ms para asegurar entrega y procesamiento
-      setTimeout(function () {
-        window.close();
-      }, 800);
-    } catch (e) {
-      document.body.innerHTML = "Error al enviar token: " + String(e);
-    }
+    // Formato 1 (Decap moderno):
+    try { opener.postMessage({ token: token, provider: "github" }, "${origin}"); } catch(e) {}
+    try { opener.postMessage({ token: token, provider: "github" }, "*"); } catch(e) {}
+
+    // Formato 2 (algunas variantes esperan 'data' anidado):
+    try { opener.postMessage({ data: { token: token, provider: "github" } }, "${origin}"); } catch(e) {}
+    try { opener.postMessage({ data: { token: token, provider: "github" } }, "*"); } catch(e) {}
+
+    // Formato 3 (muy antiguo: type)
+    try { opener.postMessage({ type: "authorization_response", token: token, provider: "github" }, "${origin}"); } catch(e) {}
+    try { opener.postMessage({ type: "authorization_response", token: token, provider: "github" }, "*"); } catch(e) {}
+
+    // Espera 1500ms para dar tiempo al CMS a guardar el token
+    setTimeout(function(){ window.close(); }, 1500);
   })();
 </script>
-Autenticación completada. Esta ventana se cerrará automáticamente…
+Autenticado. Esta ventana se cerrará automáticamente…
 </body></html>`;
 
     return {
@@ -111,10 +100,7 @@ Autenticación completada. Esta ventana se cerrará automáticamente…
     return {
       statusCode: 500,
       headers: { "Access-Control-Allow-Origin": allowOrigin },
-      body: JSON.stringify({
-        error: "Error interno en decap-auth",
-        details: String(err),
-      }),
+      body: JSON.stringify({ error: "Error interno", details: String(err) }),
     };
   }
 };
