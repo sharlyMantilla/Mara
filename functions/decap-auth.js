@@ -1,6 +1,4 @@
 // functions/decap-auth.js
-// Flujo OAuth completo para Decap CMS (backend: github)
-
 const allowOrigin = "*";
 
 function siteOrigin(event) {
@@ -10,6 +8,7 @@ function siteOrigin(event) {
 }
 
 exports.handler = async function (event) {
+  // CORS preflight
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 204,
@@ -36,7 +35,7 @@ exports.handler = async function (event) {
     const authorize = new URL("https://github.com/login/oauth/authorize");
     authorize.searchParams.set("client_id", client_id);
     authorize.searchParams.set("redirect_uri", redirect_uri);
-    // usa "public_repo" si tu repo es público; "repo" da acceso también a privados
+    // usa "public_repo" si tu repo es público; "repo" para privados
     authorize.searchParams.set("scope", "repo");
 
     return {
@@ -74,35 +73,30 @@ exports.handler = async function (event) {
       };
     }
 
-    // HTML para el popup: enviar token al opener con el formato que Decap espera
+    // HTML del popup: envía el token y espera un instante antes de cerrar
     const html = `<!doctype html>
 <html><body>
 <script>
-  try {
-    var token = ${JSON.stringify(data.access_token)};
-    // Decap espera un postMessage con { token, provider: "github" }
-    (window.opener || window.parent).postMessage(
-      { token: token, provider: "github" },
-      "${origin}"
-    );
-  } catch (e) {}
-  window.close();
-</script>
-Autenticación completada. Puedes cerrar esta ventana.
-</body></html>`;
+  (function () {
+    try {
+      var token = ${JSON.stringify(data.access_token)};
+      var msg = { token: token, provider: "github" };
+      // 1) Intenta con el origin exacto
+      try { (window.opener || window.parent).postMessage(msg, "${origin}"); } catch (e) {}
+      // 2) Y también a cualquier origin (algunos builds de Decap lo esperan así)
+      try { (window.opener || window.parent).postMessage(msg, "*"); } catch (e) {}
 
-    // Si pidieran JSON directamente (fallback):
-    if ((event.headers.accept || "").includes("application/json")) {
-      return {
-        statusCode: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": allowOrigin,
-          "Cache-Control": "no-store",
-        },
-        body: JSON.stringify({ token: data.access_token, provider: "github" }),
-      };
+      // Espera ~800ms para asegurar entrega y procesamiento
+      setTimeout(function () {
+        window.close();
+      }, 800);
+    } catch (e) {
+      document.body.innerHTML = "Error al enviar token: " + String(e);
     }
+  })();
+</script>
+Autenticación completada. Esta ventana se cerrará automáticamente…
+</body></html>`;
 
     return {
       statusCode: 200,
