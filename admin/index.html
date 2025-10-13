@@ -20,9 +20,8 @@
     <!-- Decap CMS root element -->
     <div id="nc-root"></div>
 
-    <!-- Decap CMS -->
+    <!-- Bloque de comprobaciones (SOLO logs, sin CMS.init aquí) -->
     <script>
-      // Debug logging
       console.log('Decap CMS script loaded');
 
       // Check if config exists
@@ -70,61 +69,45 @@
           console.warn('Uploads folder issue:', error);
         });
 
-      // Decap CMS initialization with error handling
+      // No inicializamos el CMS aquí para evitar doble init
       window.addEventListener('load', function() {
-        console.log('Window loaded, initializing CMS...');
-
+        console.log('Window loaded, CMS checks running...');
         if (typeof window.CMS === 'undefined') {
           document.getElementById('status').innerHTML += '<br>✗ Decap CMS not loaded';
-          document.getElementById('errors').style.display = 'block';
-          document.getElementById('errors').innerHTML += '<br>Decap CMS script failed to load';
+          const errBox = document.getElementById('errors');
+          errBox.style.display = 'block';
+          errBox.innerHTML += '<br>Decap CMS script failed to load';
           return;
         }
-
-        try {
-          window.CMS.init();
-          document.getElementById('status').innerHTML += '<br>✓ CMS initialized successfully';
-          console.log('CMS initialized');
-        } catch (error) {
-          document.getElementById('status').innerHTML += '<br>✗ CMS initialization failed';
-          document.getElementById('errors').style.display = 'block';
-          document.getElementById('errors').innerHTML += '<br>CMS init error: ' + error.message;
-          console.error('CMS init error:', error);
-        }
+        document.getElementById('status').innerHTML += '<br>✓ Decap CMS script present';
       });
 
       // Global error handler
       window.addEventListener('error', function(e) {
-        document.getElementById('errors').style.display = 'block';
-        document.getElementById('errors').innerHTML += '<br>Global error: ' + e.message;
+        const errBox = document.getElementById('errors');
+        errBox.style.display = 'block';
+        errBox.innerHTML += '<br>Global error: ' + e.message;
         console.error('Global error:', e);
       });
 
       // Unhandled promise rejection handler
       window.addEventListener('unhandledrejection', function(e) {
-        document.getElementById('errors').style.display = 'block';
-        document.getElementById('errors').innerHTML += '<br>Unhandled promise rejection: ' + e.reason;
+        const errBox = document.getElementById('errors');
+        errBox.style.display = 'block';
+        errBox.innerHTML += '<br>Unhandled promise rejection: ' + e.reason;
         console.error('Unhandled rejection:', e);
       });
     </script>
-    
+
 
     <!-- 🔄 Conexión directa con Decap CMS (GitHub OAuth) -->
+    <!-- 1 sola versión del CMS y 1 sola inicialización -->
     <script>window.CMS_MANUAL_INIT = true;</script>
-    <script src="https://unpkg.com/decap-cms@3.7.2/dist/decap-cms.js"></script>
-    
-    <script>window.CMS_MANUAL_INIT = true;</script>
-    <script src="https://unpkg.com/decap-cms@^3.9.0/dist/decap-cms.js"></script>
+    <script src="https://unpkg.com/decap-cms@3.9.1/dist/decap-cms.js"></script>
     <script>
-    CMS.init({ config: { load_config_file: true } });
+      // ÚNICA inicialización del CMS
+      CMS.init({ config: { load_config_file: true } });
+      document.getElementById('status').innerHTML += '<br>✓ CMS initialized successfully';
     </script>
-     <!-- Inicializa Decap CMS (una sola vez) -->
-<script>window.CMS_MANUAL_INIT = true;</script>
-<script src="https://unpkg.com/decap-cms@3.9.1/dist/decap-cms.js"></script>
-<script>
-  // No dupliques esta llamada
-  CMS.init({ config: { load_config_file: true } });
-</script>
-
-</body>
+  </body>
 </html>
