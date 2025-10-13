@@ -1,28 +1,24 @@
 // functions/decap-auth.js
-// Flujo completo para Decap CMS con backend GitHub:
-// - Sin ?code: redirige a GitHub (autorización)
-// - Con ?code: intercambia por access_token y se lo entrega al CMS
+// Flujo OAuth completo para Decap CMS (backend: github)
 
-const allowOrigin = '*';
+const allowOrigin = "*";
 
 function siteOrigin(event) {
-  // construye https://<tu-dominio>
-  const proto = event.headers['x-forwarded-proto'] || 'https';
+  const proto = event.headers["x-forwarded-proto"] || "https";
   const host = event.headers.host;
   return `${proto}://${host}`;
 }
 
 exports.handler = async function (event) {
-  // Preflight CORS
-  if (event.httpMethod === 'OPTIONS') {
+  if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 204,
       headers: {
-        'Access-Control-Allow-Origin': allowOrigin,
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        "Access-Control-Allow-Origin": allowOrigin,
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
       },
-      body: '',
+      body: "",
     };
   }
 
@@ -33,36 +29,34 @@ exports.handler = async function (event) {
   const redirect_uri = `${origin}/.netlify/functions/decap-auth`;
 
   const params = new URLSearchParams(event.queryStringParameters || {});
-  const code = params.get('code');
+  const code = params.get("code");
 
-  // 1) Si NO hay code, redirigimos a GitHub para que el usuario autorice
+  // 1) Sin ?code -> redirige a GitHub (autorización)
   if (!code) {
-    const authorize = new URL('https://github.com/login/oauth/authorize');
-    authorize.searchParams.set('client_id', client_id);
-    authorize.searchParams.set('redirect_uri', redirect_uri);
-    // scope "repo" para repos privados; si tu repo es público puedes usar "public_repo"
-    authorize.searchParams.set('scope', 'repo');
-    // opcional: state
-    // authorize.searchParams.set('state', 'xyz');
+    const authorize = new URL("https://github.com/login/oauth/authorize");
+    authorize.searchParams.set("client_id", client_id);
+    authorize.searchParams.set("redirect_uri", redirect_uri);
+    // usa "public_repo" si tu repo es público; "repo" da acceso también a privados
+    authorize.searchParams.set("scope", "repo");
 
     return {
       statusCode: 302,
       headers: {
         Location: authorize.toString(),
-        'Cache-Control': 'no-store',
-        'Access-Control-Allow-Origin': allowOrigin,
+        "Cache-Control": "no-store",
+        "Access-Control-Allow-Origin": allowOrigin,
       },
-      body: '',
+      body: "",
     };
   }
 
-  // 2) Con code: intercambiamos por access_token
+  // 2) Con ?code -> intercambia por access_token
   try {
-    const resp = await fetch('https://github.com/login/oauth/access_token', {
-      method: 'POST',
+    const resp = await fetch("https://github.com/login/oauth/access_token", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({ client_id, client_secret, code, redirect_uri }),
     });
@@ -72,38 +66,61 @@ exports.handler = async function (event) {
     if (!data.access_token) {
       return {
         statusCode: 401,
-        headers: { 'Access-Control-Allow-Origin': allowOrigin },
-        body: JSON.stringify({ error: 'No se recibió access_token desde GitHub', details: data }),
+        headers: { "Access-Control-Allow-Origin": allowOrigin },
+        body: JSON.stringify({
+          error: "No se recibió access_token desde GitHub",
+          details: data,
+        }),
       };
     }
 
-    // Entregamos el token al CMS usando postMessage y cerramos el popup
+    // HTML para el popup: enviar token al opener con el formato que Decap espera
     const html = `<!doctype html>
 <html><body>
 <script>
-  (window.opener || window.parent).postMessage(
-    { token: ${JSON.stringify(data.access_token)} },
-    "*"
-  );
+  try {
+    var token = ${JSON.stringify(data.access_token)};
+    // Decap espera un postMessage con { token, provider: "github" }
+    (window.opener || window.parent).postMessage(
+      { token: token, provider: "github" },
+      "${origin}"
+    );
+  } catch (e) {}
   window.close();
 </script>
 Autenticación completada. Puedes cerrar esta ventana.
 </body></html>`;
 
+    // Si pidieran JSON directamente (fallback):
+    if ((event.headers.accept || "").includes("application/json")) {
+      return {
+        statusCode: 200,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": allowOrigin,
+          "Cache-Control": "no-store",
+        },
+        body: JSON.stringify({ token: data.access_token, provider: "github" }),
+      };
+    }
+
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'no-store',
-        'Access-Control-Allow-Origin': allowOrigin,
+        "Content-Type": "text/html; charset=utf-8",
+        "Access-Control-Allow-Origin": allowOrigin,
+        "Cache-Control": "no-store",
       },
       body: html,
     };
   } catch (err) {
     return {
       statusCode: 500,
-      headers: { 'Access-Control-Allow-Origin': allowOrigin },
-      body: JSON.stringify({ error: 'Error interno en decap-auth', details: String(err) }),
+      headers: { "Access-Control-Allow-Origin": allowOrigin },
+      body: JSON.stringify({
+        error: "Error interno en decap-auth",
+        details: String(err),
+      }),
     };
   }
 };
