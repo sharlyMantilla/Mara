@@ -5,8 +5,8 @@ backend:
   base_url: "https://marasport.netlify.app"
   auth_endpoint: "/.netlify/functions/decap-auth"
 
-media_folder: "assets/uploads"     # donde se guardan las imágenes en el repo
-public_folder: "/assets/uploads"   # cómo se referencian desde la web
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
 
 publish_mode: editorial_workflow
 locale: es
@@ -26,77 +26,14 @@ collections:
             collapsed: false
             summary: "{{fields.nombre}} - ${{fields.precio}}"
             fields:
-              - label: ID/Slug
-                name: slug
-                widget: string
-                hint: "ej: set-oversize-pushup-medias"
-
-              - label: Nombre
-                name: nombre
-                widget: string
-
-              - label: Categoria
-                name: categoria
-                widget: select
-                options:
-                  - Set
-                  - Leggings
-                  - Biker
-                  - Medias
-
-              - label: Precio (COP)
-                name: precio
-                widget: number
-                value_type: int
-                min: 0
-                step: 1000
-
-              - label: Descripción corta
-                name: descripcion_corta
-                widget: text
-
-              - label: Descripción larga
-                name: descripcion_larga
-                widget: text
-
-              - label: Tallas
-                name: tallas
-                widget: select
-                multiple: true
-                options:
-                  - XS
-                  - S
-                  - M
-                  - L
-                default:
-                  - S
-                  - M
-
-              - label: Colores
-                name: colores
-                widget: list
-                field:
-                  label: Color
-                  name: color
-                  widget: string
-
-              - label: Imágenes
-                name: imagenes
-                widget: list
-                field:
-                  label: URL de imagen
-                  name: url
-                  widget: image
-
-              - label: Destacado
-                name: destacado
-                widget: boolean
-                default: false
-
-              - label: Estado
-                name: estado
-                widget: select
-                options:
-                  - activo
-                  - borrador
-                default: activo
+              - { label: "ID/Slug", name: slug, widget: string, hint: "ej: set-oversize-pushup-medias" }
+              - { label: "Nombre", name: nombre, widget: string }
+              - { label: "Categoria", name: categoria, widget: select, options: [Set, Leggings, Biker, Medias] }
+              - { label: "Precio (COP)", name: precio, widget: number, value_type: int, min: 0, step: 1000 }
+              - { label: "Descripción corta", name: descripcion_corta, widget: text }
+              - { label: "Descripción larga", name: descripcion_larga, widget: text }
+              - { label: "Tallas", name: tallas, widget: select, multiple: true, options: [XS, S, M, L], default: [S, M] }
+              - { label: "Colores", name: colores, widget: list, field: { label: Color, name: color, widget: string } }
+              - { label: "Imágenes", name: imagenes, widget: list, field: { label: URL de imagen, name: url, widget: image } }
+              - { label: "Destacado", name: destacado, widget: boolean, default: false }
+              - { label: "Estado", name: estado, widget: select, options: [activo, borrador], default: activo }
