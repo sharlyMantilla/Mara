@@ -1,4 +1,4 @@
-// functions/decap-auth.js
+﻿// functions/decap-auth.js
 const allowOrigin = "*";
 
 function siteOrigin(event) {
@@ -28,12 +28,14 @@ exports.handler = async function (event) {
 
   const params = new URLSearchParams(event.queryStringParameters || {});
   const code = params.get("code");
+  const state = params.get("state");
 
   if (!code) {
     const authorize = new URL("https://github.com/login/oauth/authorize");
     authorize.searchParams.set("client_id", client_id);
     authorize.searchParams.set("redirect_uri", redirect_uri);
     authorize.searchParams.set("scope", "repo");
+    if (state) authorize.searchParams.set("state", state);
     return {
       statusCode: 302,
       headers: {
@@ -69,29 +71,29 @@ exports.handler = async function (event) {
     var opener = (window.opener || window.parent);
 
     // Formato 1 (Decap moderno):
-    try { opener.postMessage({ token: token, provider: "github" }, "${origin}"); } catch(e) {}
-    try { opener.postMessage({ token: token, provider: "github" }, "*"); } catch(e) {}
+    try { opener.postMessage({ token: token, provider: "github", state: state }, "${origin}"); } catch(e) {}
+    try { opener.postMessage({ token: token, provider: "github", state: state }, "*"); } catch(e) {}
 
     // Formato 2 (algunas variantes esperan 'data' anidado):
-    try { opener.postMessage({ data: { token: token, provider: "github" } }, "${origin}"); } catch(e) {}
-    try { opener.postMessage({ data: { token: token, provider: "github" } }, "*"); } catch(e) {}
+    try { opener.postMessage({ data: { token: token, provider: "github", state: state } }, "${origin}"); } catch(e) {}
+    try { opener.postMessage({ data: { token: token, provider: "github", state: state } }, "*"); } catch(e) {}
 
     // Formato 3 (muy antiguo: type)
-    try { opener.postMessage({ type: "authorization_response", token: token, provider: "github" }, "${origin}"); } catch(e) {}
-    try { opener.postMessage({ type: "authorization_response", token: token, provider: "github" }, "*"); } catch(e) {}
+    try { opener.postMessage({ type: "authorization_response", token: token, provider: "github", state: state }, "${origin}"); } catch(e) {}
+    try { opener.postMessage({ type: "authorization_response", token: token, provider: "github", state: state }, "*"); } catch(e) {}
 
     // Formato 4: variantes con access_token
-    try { opener.postMessage({ access_token: token, provider: "github" }, "${origin}"); } catch(e) {}
-    try { opener.postMessage({ access_token: token, provider: "github" }, "*"); } catch(e) {}
-    try { opener.postMessage({ data: { access_token: token, provider: "github" } }, "${origin}"); } catch(e) {}
-    try { opener.postMessage({ data: { access_token: token, provider: "github" } }, "*"); } catch(e) {}
-    try { opener.postMessage({ type: "authorization_response", provider: "github", data: { token: token, access_token: token } }, "${origin}"); } catch(e) {}
-    try { opener.postMessage({ type: "authorization_response", provider: "github", data: { token: token, access_token: token } }, "*"); } catch(e) {}
+    try { opener.postMessage({ access_token: token, provider: "github", state: state }, "${origin}"); } catch(e) {}
+    try { opener.postMessage({ access_token: token, provider: "github", state: state }, "*"); } catch(e) {}
+    try { opener.postMessage({ data: { access_token: token, provider: "github", state: state } }, "${origin}"); } catch(e) {}
+    try { opener.postMessage({ data: { access_token: token, provider: "github", state: state } }, "*"); } catch(e) {}
+    try { opener.postMessage({ type: "authorization_response", provider: "github", state: state, data: { token: token, access_token: token } }, "${origin}"); } catch(e) {}
+    try { opener.postMessage({ type: "authorization_response", provider: "github", state: state, data: { token: token, access_token: token } }, "*"); } catch(e) {}
     // Espera 1500ms para dar tiempo al CMS a guardar el token
     setTimeout(function(){ window.close(); }, 3000);
   })();
 </script>
-Autenticado. Esta ventana se cerrará automáticamente…
+Autenticado. Esta ventana se cerrarÃ¡ automÃ¡ticamenteâ€¦
 </body></html>`;
 
     return {
