@@ -8,6 +8,7 @@ function siteOrigin(event) {
 }
 
 exports.handler = async function (event) {
+  // CORS preflight
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 204,
@@ -28,8 +29,9 @@ exports.handler = async function (event) {
 
   const params = new URLSearchParams(event.queryStringParameters || {});
   const code = params.get("code");
-  const state = params.get("state");
+  const state = params.get("state") || "";
 
+  // Step 1: redirect to GitHub if no code yet
   if (!code) {
     const authorize = new URL("https://github.com/login/oauth/authorize");
     authorize.searchParams.set("client_id", client_id);
@@ -47,6 +49,7 @@ exports.handler = async function (event) {
     };
   }
 
+  // Step 2: exchange code for token
   try {
     const resp = await fetch("https://github.com/login/oauth/access_token", {
       method: "POST",
@@ -63,42 +66,35 @@ exports.handler = async function (event) {
       };
     }
 
-    const html = `<!doctype html>
-<html><body>
-<script>
-  (function() {
-    var token = ;
-    var state = ;
-    var provider = 'github';
-    var opener = (window.opener || window.parent);
+    const token = data.access_token;
 
-    // Formato 1 (Decap moderno):
-    try { opener.postMessage({ token: token, provider: "github", state: state }, "${origin}"); } catch(e) {}
-    try { opener.postMessage({ token: token, provider: "github", state: state }, "*"); } catch(e) {}
-
-    // Formato 2 (algunas variantes esperan 'data' anidado):
-    try { opener.postMessage({ data: { token: token, provider: "github", state: state } }, "${origin}"); } catch(e) {}
-    try { opener.postMessage({ data: { token: token, provider: "github", state: state } }, "*"); } catch(e) {}
-
-    // Formato 3 (muy antiguo: type)
-    try { opener.postMessage({ type: "authorization_response", token: token, provider: "github", state: state }, "${origin}"); } catch(e) {}
-    try { opener.postMessage({ type: "authorization_response", token: token, provider: "github", state: state }, "*"); } catch(e) {}
-
-    // Formato 4: variantes con access_token
-    try { opener.postMessage({ access_token: token, provider: "github", state: state }, "${origin}"); } catch(e) {}
-    try { opener.postMessage({ access_token: token, provider: "github", state: state }, "*"); } catch(e) {}
-    try { opener.postMessage({ data: { access_token: token, provider: "github", state: state } }, "${origin}"); } catch(e) {}
-    try { opener.postMessage({ data: { access_token: token, provider: "github", state: state } }, "*"); } catch(e) {}
-    try { opener.postMessage({ type: "authorization_response", provider: "github", state: state, data: { token: token, access_token: token } }, "${origin}"); } catch(e) {}
-    try { opener.postMessage({ type: "authorization_response", provider: "github", state: state, data: { token: token, access_token: token } }, "*"); } catch(e) {}
-    // Espera 1500ms para dar tiempo al CMS a guardar el token
-    // Formato 5 (muy legacy: string simple)
-    try { opener.postMessage("authorization:github:success:" + token, "${origin}"); } catch(e) {}
-    try { opener.postMessage("authorization:github:success:" + token, "*"); } catch(e) {}
-    setTimeout(function(){ window.close(); }, 3000);
-  })();
-</script>
-Autenticado. Esta ventana se cerrarÃ¡ automÃ¡ticamenteâ€¦
+    const html = `<!doctype html><html><body>
+<script>(function(){
+  var token = ${JSON.stringify(token)};
+  var state = ${JSON.stringify(state)};
+  var origin = ${JSON.stringify(origin)};
+  var opener = (window.opener || window.parent);
+  function sendAll(){
+    try{opener.postMessage({ token: token, provider: 'github', state: state }, origin);}catch(e){}
+    try{opener.postMessage({ token: token, provider: 'github', state: state }, '*');}catch(e){}
+    try{opener.postMessage({ data: { token: token, provider: 'github', state: state } }, origin);}catch(e){}
+    try{opener.postMessage({ data: { token: token, provider: 'github', state: state } }, '*');}catch(e){}
+    try{opener.postMessage({ type: 'authorization_response', token: token, provider: 'github', state: state }, origin);}catch(e){}
+    try{opener.postMessage({ type: 'authorization_response', token: token, provider: 'github', state: state }, '*');}catch(e){}
+    try{opener.postMessage({ access_token: token, provider: 'github', state: state }, origin);}catch(e){}
+    try{opener.postMessage({ access_token: token, provider: 'github', state: state }, '*');}catch(e){}
+    try{opener.postMessage({ data: { access_token: token, provider: 'github', state: state } }, origin);}catch(e){}
+    try{opener.postMessage({ data: { access_token: token, provider: 'github', state: state } }, '*');}catch(e){}
+    try{opener.postMessage({ type: 'authorization_response', provider: 'github', state: state, data: { token: token, access_token: token } }, origin);}catch(e){}
+    try{opener.postMessage({ type: 'authorization_response', provider: 'github', state: state, data: { token: token, access_token: token } }, '*');}catch(e){}
+    try{opener.postMessage('authorization:github:success:' + token, origin);}catch(e){}
+    try{opener.postMessage('authorization:github:success:' + token, '*');}catch(e){}
+  }
+  sendAll();
+  var i=0; var iv = setInterval(function(){ try{sendAll();}catch(e){} if(++i>20){ clearInterval(iv); } }, 150);
+  setTimeout(function(){ try{ window.close(); }catch(e){} }, 4000);
+})();</script>
+Authenticated. This window will close automatically...
 </body></html>`;
 
     return {
@@ -114,7 +110,7 @@ Autenticado. Esta ventana se cerrarÃ¡ automÃ¡ticamenteâ€¦
     return {
       statusCode: 500,
       headers: { "Access-Control-Allow-Origin": allowOrigin },
-      body: JSON.stringify({ error: "Error interno", details: String(err) }),
+      body: JSON.stringify({ error: "Internal error", details: String(err) }),
     };
   }
 };
