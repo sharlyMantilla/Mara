@@ -106,23 +106,7 @@
           try { console.log('[admin-auth]', line); } catch(_){}
           if (statusEl) statusEl.innerHTML += '<br>' + line;
         }
-        window.addEventListener('message', function (event) {
-          try {
-            log('postMessage from ' + event.origin);
-            log('data: ' + JSON.stringify(event.data));
-            const d = event.data || {};
-            const token = d.token || d.access_token || (d.data && (d.data.token || d.data.access_token));
-            if (token) {
-              log('Token received. (len=' + String(token).length + ')');
-              try { localStorage.setItem('decap_token_debug', token); } catch (e) {}
-              try { fetch('https://api.github.com/user', { headers: { Authorization: 'token ' + token } }).then(r => r.json()).then(u => log('GitHub user: '+JSON.stringify({login:u.login,id:u.id}))).catch(err => log('GitHub user fetch error: '+err)); } catch(e) {}
-            } else {
-              log('No token found in message payload');
-            }
-          } catch (err) {
-            console.error('message handler error', err);
-          }
-        });
+        window.addEventListener('message', function (event) {\r\n          try {\r\n            log('postMessage from ' + event.origin);\r\n            log('data: ' + JSON.stringify(event.data));\r\n            var d = event.data;\r\n            var token = null;\r\n            if (typeof d === 'string') {\r\n              var prefix = 'authorization:github:success:';\r\n              if (d.indexOf(prefix) === 0) token = d.slice(prefix.length);\r\n            } else if (d && typeof d === 'object') {\r\n              token = d.token || d.access_token || (d.data && (d.data.token || d.data.access_token));\r\n            }\r\n            if (token) {\r\n              log('Token received. (len=' + String(token).length + ')');\r\n              try { localStorage.setItem('decap_token_debug', token); } catch (e) {}\r\n            } else {\r\n              log('No token found in message payload');\r\n            }\r\n          } catch (err) {\r\n            console.error('message handler error', err);\r\n          }\r\n        });
       })();
     </script>
 

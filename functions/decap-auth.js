@@ -67,7 +67,9 @@ exports.handler = async function (event) {
 <html><body>
 <script>
   (function() {
-    var token = ${JSON.stringify(data.access_token)};
+    var token = ;
+    var state = ;
+    var provider = 'github';
     var opener = (window.opener || window.parent);
 
     // Formato 1 (Decap moderno):
