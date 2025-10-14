@@ -121,6 +121,13 @@
             if (token) {
               log('Token received. (len=' + String(token).length + ')');
               try { localStorage.setItem('decap_token_debug', token); } catch (e) {}
+              // Persist token for various CMS storage keys
+              try { localStorage.setItem('netlify-cms-auth', JSON.stringify({ token: token, provider: 'github' })); } catch (e) {}
+              try { localStorage.setItem('netlify-cms-user', JSON.stringify({ token: token })); } catch (e) {}
+              try { localStorage.setItem('decap-cms-auth', JSON.stringify({ token: token, provider: 'github' })); } catch (e) {}
+              try { sessionStorage.setItem('netlify-cms-auth', JSON.stringify({ token: token, provider: 'github' })); } catch (e) {}
+              // Reload to let Decap pick up the token
+              setTimeout(function(){ try { window.location.reload(); } catch(e) {} }, 300);
             } else {
               log('No token found in message payload');
             }
