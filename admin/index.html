@@ -99,66 +99,22 @@
       });
     </script>
 
-
-    <!-- 🔄 Carga Decap CMS con fallback y una sola inicialización -->
+<!-- Carga local de Decap CMS (sin CDNs) -->
+<script>window.CMS_MANUAL_INIT = true;</script>
+<script src="./vendor/decap-cms.js"></script>
 <script>
-  window.CMS_MANUAL_INIT = true;
-
-  (function () {
-    const statusBox = document.getElementById('status');
+  try {
+    CMS.init({ config: { load_config_file: true } });
+    document.getElementById('status').innerHTML += '<br>✓ CMS initialized successfully (local)';
+  } catch (e) {
     const errBox = document.getElementById('errors');
-
-    function markError(msg) {
-      errBox.style.display = 'block';
-      errBox.innerHTML += '<br>' + msg;
-      console.error(msg);
-    }
-
-    function initIfReady() {
-      if (window.CMS) {
-        try {
-          CMS.init({ config: { load_config_file: true } });
-          statusBox.innerHTML += '<br>✓ CMS initialized successfully';
-        } catch (e) {
-          markError('CMS init error: ' + e.message);
-        }
-      } else {
-        markError('CMS global missing after load');
-      }
-    }
-
-    function loadScript(src, onload, onerror) {
-      const s = document.createElement('script');
-      s.src = src;
-      s.onload = onload;
-      s.onerror = onerror;
-      document.head.appendChild(s);
-    }
-
-    // 1) intenta UNPKG
-    loadScript(
-      'https://unpkg.com/decap-cms@3.9.1/dist/decap-cms.js',
-      function () {
-        statusBox.innerHTML += '<br>✓ Decap CMS loaded from unpkg';
-        initIfReady();
-      },
-      function () {
-        console.warn('Failed to load from unpkg, trying jsDelivr…');
-        // 2) fallback a jsDelivr
-        loadScript(
-          'https://cdn.jsdelivr.net/npm/decap-cms@3.9.1/dist/decap-cms.js',
-          function () {
-            statusBox.innerHTML += '<br>✓ Decap CMS loaded from jsDelivr';
-            initIfReady();
-          },
-          function () {
-            markError('Could not load Decap CMS from CDNs');
-          }
-        );
-      }
-    );
-  })();
+    errBox.style.display = 'block';
+    errBox.innerHTML += '<br>CMS init error: ' + e.message;
+    console.error(e);
+  }
 </script>
+
+  
 
   </body>
 </html>
