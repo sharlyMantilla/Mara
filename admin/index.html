@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
   <head>
     <meta charset="utf-8" />
@@ -20,7 +20,7 @@
     <!-- Decap CMS root element -->
     <div id="nc-root"></div>
 
-    <!-- Bloque de comprobaciones (SOLO logs, sin CMS.init aquí) -->
+    <!-- Bloque de comprobaciones (SOLO logs, sin CMS.init aquÃ­) -->
     <script>
       console.log('Decap CMS script loaded');
 
@@ -28,14 +28,14 @@
       fetch('./config.yml')
         .then(response => {
           if (response.ok) {
-            document.getElementById('status').innerHTML += '<br>✓ Config file found';
+            document.getElementById('status').innerHTML += '<br>âœ“ Config file found';
             console.log('Config file accessible');
           } else {
             throw new Error('Config file not found');
           }
         })
         .catch(error => {
-          document.getElementById('status').innerHTML += '<br>✗ Config file error: ' + error.message;
+          document.getElementById('status').innerHTML += '<br>âœ— Config file error: ' + error.message;
           document.getElementById('errors').style.display = 'block';
           document.getElementById('errors').innerHTML = 'Error loading config.yml: ' + error.message;
           console.error('Config error:', error);
@@ -45,14 +45,14 @@
       fetch('../data/products.json')
         .then(response => {
           if (response.ok) {
-            document.getElementById('status').innerHTML += '<br>✓ Products data file found';
+            document.getElementById('status').innerHTML += '<br>âœ“ Products data file found';
             console.log('Products data accessible');
           } else {
             throw new Error('Products data file not found');
           }
         })
         .catch(error => {
-          document.getElementById('status').innerHTML += '<br>✗ Products data error: ' + error.message;
+          document.getElementById('status').innerHTML += '<br>âœ— Products data error: ' + error.message;
           document.getElementById('errors').style.display = 'block';
           document.getElementById('errors').innerHTML += '<br>Error loading products.json: ' + error.message;
           console.error('Products data error:', error);
@@ -61,25 +61,25 @@
       // Check uploads folder
       fetch('../assets/uploads/')
         .then(response => {
-          document.getElementById('status').innerHTML += '<br>✓ Uploads folder accessible';
+          document.getElementById('status').innerHTML += '<br>âœ“ Uploads folder accessible';
           console.log('Uploads folder accessible');
         })
         .catch(error => {
-          document.getElementById('status').innerHTML += '<br>⚠ Uploads folder may not exist or be accessible';
+          document.getElementById('status').innerHTML += '<br>âš  Uploads folder may not exist or be accessible';
           console.warn('Uploads folder issue:', error);
         });
 
-      // No inicializamos el CMS aquí para evitar doble init
+      // No inicializamos el CMS aquÃ­ para evitar doble init
       window.addEventListener('load', function() {
         console.log('Window loaded, CMS checks running...');
         if (typeof window.CMS === 'undefined') {
-          document.getElementById('status').innerHTML += '<br>✗ Decap CMS not loaded';
+          document.getElementById('status').innerHTML += '<br>âœ— Decap CMS not loaded';
           const errBox = document.getElementById('errors');
           errBox.style.display = 'block';
           errBox.innerHTML += '<br>Decap CMS script failed to load';
           return;
         }
-        document.getElementById('status').innerHTML += '<br>✓ Decap CMS script present';
+        document.getElementById('status').innerHTML += '<br>âœ“ Decap CMS script present';
       });
 
       // Global error handler
@@ -101,11 +101,11 @@
 
 <!-- Carga local de Decap CMS (sin CDNs) -->
 <script>window.CMS_MANUAL_INIT = true;</script>
-<script src="./vendor/decap-cms.js"></script>
+<script src="https://unpkg.com/decap-cms@3.7.2/dist/decap-cms.js"></script>
 <script>
   try {
     CMS.init({ config: { load_config_file: true } });
-    document.getElementById('status').innerHTML += '<br>✓ CMS initialized successfully (local)';
+    document.getElementById('status').innerHTML += '<br>âœ“ CMS initialized successfully (local)';
   } catch (e) {
     const errBox = document.getElementById('errors');
     errBox.style.display = 'block';
