@@ -80,8 +80,15 @@ exports.handler = async function (event) {
     try { opener.postMessage({ type: "authorization_response", token: token, provider: "github" }, "${origin}"); } catch(e) {}
     try { opener.postMessage({ type: "authorization_response", token: token, provider: "github" }, "*"); } catch(e) {}
 
+    // Formato 4: variantes con access_token
+    try { opener.postMessage({ access_token: token, provider: "github" }, "${origin}"); } catch(e) {}
+    try { opener.postMessage({ access_token: token, provider: "github" }, "*"); } catch(e) {}
+    try { opener.postMessage({ data: { access_token: token, provider: "github" } }, "${origin}"); } catch(e) {}
+    try { opener.postMessage({ data: { access_token: token, provider: "github" } }, "*"); } catch(e) {}
+    try { opener.postMessage({ type: "authorization_response", provider: "github", data: { token: token, access_token: token } }, "${origin}"); } catch(e) {}
+    try { opener.postMessage({ type: "authorization_response", provider: "github", data: { token: token, access_token: token } }, "*"); } catch(e) {}
     // Espera 1500ms para dar tiempo al CMS a guardar el token
-    setTimeout(function(){ window.close(); }, 1500);
+    setTimeout(function(){ window.close(); }, 3000);
   })();
 </script>
 Autenticado. Esta ventana se cerrará automáticamente…

@@ -1,4 +1,4 @@
-[build]
+﻿[build]
 publish = "."
 command = ""
 
@@ -6,7 +6,7 @@ command = ""
   directory = "functions"
 
 [[redirects]]
-  from = "/admin/*"
+  from = "/admin"
   to   = "/admin/index.html"
   status = 200
 
