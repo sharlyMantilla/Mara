@@ -90,6 +90,9 @@ exports.handler = async function (event) {
     try { opener.postMessage({ type: "authorization_response", provider: "github", state: state, data: { token: token, access_token: token } }, "${origin}"); } catch(e) {}
     try { opener.postMessage({ type: "authorization_response", provider: "github", state: state, data: { token: token, access_token: token } }, "*"); } catch(e) {}
     // Espera 1500ms para dar tiempo al CMS a guardar el token
+    // Formato 5 (muy legacy: string simple)
+    try { opener.postMessage("authorization:github:success:" + token, "${origin}"); } catch(e) {}
+    try { opener.postMessage("authorization:github:success:" + token, "*"); } catch(e) {}
     setTimeout(function(){ window.close(); }, 3000);
   })();
 </script>

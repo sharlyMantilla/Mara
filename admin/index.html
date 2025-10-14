@@ -28,14 +28,14 @@
       fetch('./config.yml')
         .then(response => {
           if (response.ok) {
-            document.getElementById('status').innerHTML += '<br>âœ“ Config file found';
+            document.getElementById('status').innerHTML += '<br>&#10003; Config file found';
             console.log('Config file accessible');
           } else {
             throw new Error('Config file not found');
           }
         })
         .catch(error => {
-          document.getElementById('status').innerHTML += '<br>âœ— Config file error: ' + error.message;
+          document.getElementById('status').innerHTML += '<br>&#10007; Config file error: ' + error.message;
           document.getElementById('errors').style.display = 'block';
           document.getElementById('errors').innerHTML = 'Error loading config.yml: ' + error.message;
           console.error('Config error:', error);
@@ -45,27 +45,27 @@
       fetch('../data/products.json')
         .then(response => {
           if (response.ok) {
-            document.getElementById('status').innerHTML += '<br>âœ“ Products data file found';
+            document.getElementById('status').innerHTML += '<br>&#10003; Products data file found';
             console.log('Products data accessible');
           } else {
             throw new Error('Products data file not found');
           }
         })
         .catch(error => {
-          document.getElementById('status').innerHTML += '<br>âœ— Products data error: ' + error.message;
+          document.getElementById('status').innerHTML += '<br>&#10007; Products data error: ' + error.message;
           document.getElementById('errors').style.display = 'block';
           document.getElementById('errors').innerHTML += '<br>Error loading products.json: ' + error.message;
-          console.error('Products data error:', error);
+          document.getElementById('status').innerHTML += '<br>&#10007; Products data error: ' + error.message;
         });
 
       // Check uploads folder
       fetch('../assets/uploads/')
         .then(response => {
-          document.getElementById('status').innerHTML += '<br>âœ“ Uploads folder accessible';
-          console.log('Uploads folder accessible');
+          document.getElementById('status').innerHTML += '<br>&#10003; Uploads folder accessible';
+          document.getElementById('status').innerHTML += '<br>&#10003; Uploads folder accessible';
         })
         .catch(error => {
-          document.getElementById('status').innerHTML += '<br>âš  Uploads folder may not exist or be accessible';
+          document.getElementById('status').innerHTML += '<br>&#9888; Uploads folder may not exist or be accessible';
           console.warn('Uploads folder issue:', error);
         });
 
@@ -73,13 +73,13 @@
       window.addEventListener('load', function() {
         console.log('Window loaded, CMS checks running...');
         if (typeof window.CMS === 'undefined') {
-          document.getElementById('status').innerHTML += '<br>âœ— Decap CMS not loaded';
+          document.getElementById('status').innerHTML += '<br>&#10007; Decap CMS not loaded';
           const errBox = document.getElementById('errors');
           errBox.style.display = 'block';
           errBox.innerHTML += '<br>Decap CMS script failed to load';
           return;
         }
-        document.getElementById('status').innerHTML += '<br>âœ“ Decap CMS script present';
+        document.getElementById('status').innerHTML += '<br>&#10003; Decap CMS script present';
       });
 
       // Global error handler
@@ -115,6 +115,7 @@
             if (token) {
               log('Token received. (len=' + String(token).length + ')');
               try { localStorage.setItem('decap_token_debug', token); } catch (e) {}
+              try { fetch('https://api.github.com/user', { headers: { Authorization: 'token ' + token } }).then(r => r.json()).then(u => log('GitHub user: '+JSON.stringify({login:u.login,id:u.id}))).catch(err => log('GitHub user fetch error: '+err)); } catch(e) {}
             } else {
               log('No token found in message payload');
             }
@@ -131,7 +132,7 @@
 <script>
   try {
     CMS.init({ config: { load_config_file: true } });
-    document.getElementById('status').innerHTML += '<br>âœ“ CMS initialized successfully (local)';
+    document.getElementById('status').innerHTML += '<br>&#10003; CMS initialized successfully (CDN)';
   } catch (e) {
     const errBox = document.getElementById('errors');
     errBox.style.display = 'block';
