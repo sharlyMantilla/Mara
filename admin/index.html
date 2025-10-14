@@ -107,34 +107,41 @@
           if (statusEl) statusEl.innerHTML += '<br>' + line;
         }
         window.addEventListener('message', function (event) {
-          try {
-            log('postMessage from ' + event.origin);
-            log('data: ' + JSON.stringify(event.data));
-            var d = event.data;
-            var token = null;
-            if (typeof d === 'string') {
-              var prefix = 'authorization:github:success:';
-              if (d.indexOf(prefix) === 0) token = d.slice(prefix.length);
-            } else if (d && typeof d === 'object') {
-              token = d.token || d.access_token || (d.data && (d.data.token || d.data.access_token));
-            }
-            if (token) {
-              log('Token received. (len=' + String(token).length + ')');
-              try { localStorage.setItem('decap_token_debug', token); } catch (e) {}
-              // Persist token for various CMS storage keys
-              try { localStorage.setItem('netlify-cms-auth', JSON.stringify({ token: token, provider: 'github' })); } catch (e) {}
-              try { localStorage.setItem('netlify-cms-user', JSON.stringify({ token: token })); } catch (e) {}
-              try { localStorage.setItem('decap-cms-auth', JSON.stringify({ token: token, provider: 'github' })); } catch (e) {}
-              try { sessionStorage.setItem('netlify-cms-auth', JSON.stringify({ token: token, provider: 'github' })); } catch (e) {}
-              // Reload to let Decap pick up the token
-              setTimeout(function(){ try { window.location.reload(); } catch(e) {} }, 300);
-            } else {
-              log('No token found in message payload');
-            }
-          } catch (err) {
-            console.error('message handler error', err);
-          }
+  try {
+    log('postMessage from ' + event.origin);
+    log('data: ' + JSON.stringify(event.data));
+    var d = event.data;
+    var token = null;
+    if (typeof d === 'string') {
+      var prefix = 'authorization:github:success:';
+      if (d.indexOf(prefix) === 0) token = d.slice(prefix.length);
+    } else if (d && typeof d === 'object') {
+      token = d.token || d.access_token || (d.data && (d.data.token || d.data.access_token));
+    }
+    if (token) {
+      log('Token received. (len=' + String(token).length + ')');
+      try { localStorage.setItem('decap_token_debug', token); } catch (e) {}
+      // Persist to keys Decap/Netlify CMS read
+      try { localStorage.setItem('netlify-cms-auth', JSON.stringify({ token: token, provider: 'github' })); } catch (e) {}
+      try { localStorage.setItem('decap-cms-auth', JSON.stringify({ token: token, provider: 'github' })); } catch (e) {}
+      // Enrich netlify-cms-user with GitHub login (helps some versions)
+      fetch('https://api.github.com/user', { headers: { Authorization: 'token ' + token } })
+        .then(r => r.ok ? r.json() : Promise.reject(r.status + ' ' + r.statusText))
+        .then(u => {
+          try { localStorage.setItem('netlify-cms-user', JSON.stringify({ token: token, user: { login: u.login, id: u.id } })); } catch (e) {}
+          log('GitHub user: ' + JSON.stringify({ login: u.login, id: u.id }));
+        })
+        .catch(err => log('GitHub user fetch error: ' + err))
+        .finally(() => {
+          setTimeout(function(){ try { window.location.reload(); } catch(e) {} }, 400);
         });
+    } else {
+      log('No token found in message payload');
+    }
+  } catch (err) {
+    console.error('message handler error', err);
+  }
+});
       })();
     </script>
 
