@@ -5,14 +5,20 @@ command = ""
 [functions]
   directory = "functions"
 
+# Sirve directamente el config de Decap
 [[redirects]]
-  from = "/admin"
+  from = "/admin/config.yml"
+  to   = "/admin/config.yml"
+  status = 200
+
+# SPA del admin
+[[redirects]]
+  from = "/admin/*"
   to   = "/admin/index.html"
   status = 200
 
+# SPA del sitio
 [[redirects]]
   from = "/*"
   to   = "/index.html"
   status = 200
-
-  
