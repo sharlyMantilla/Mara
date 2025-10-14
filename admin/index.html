@@ -98,6 +98,32 @@
         console.error('Unhandled rejection:', e);
       });
     </script>
+    <!-- Debug: listener de autenticación OAuth (GitHub/Decap) -->
+    <script>
+      (function () {
+        const statusEl = document.getElementById('status');
+        function log(line) {
+          try { console.log('[admin-auth]', line); } catch(_){}
+          if (statusEl) statusEl.innerHTML += '<br>' + line;
+        }
+        window.addEventListener('message', function (event) {
+          try {
+            log('postMessage from ' + event.origin);
+            log('data: ' + JSON.stringify(event.data));
+            const d = event.data || {};
+            const token = d.token || d.access_token || (d.data && (d.data.token || d.data.access_token));
+            if (token) {
+              log('Token received. (len=' + String(token).length + ')');
+              try { localStorage.setItem('decap_token_debug', token); } catch (e) {}
+            } else {
+              log('No token found in message payload');
+            }
+          } catch (err) {
+            console.error('message handler error', err);
+          }
+        });
+      })();
+    </script>
 
 <!-- Carga local de Decap CMS (sin CDNs) -->
 <script>window.CMS_MANUAL_INIT = true;</script>
