@@ -1,11 +1,8 @@
-﻿// functions/decap-auth.js
-const allowOrigin = "*";
-
-function siteOrigin(event) {
-  const proto = event.headers["x-forwarded-proto"] || "https";
-  const host = event.headers.host;
-  return `${proto}://${host}`;
-}
+// functions/decap-auth.js
+const allowOrigin = "https://marasport.netlify.app";
+const redirectBase = "https://marasport.netlify.app";
+const authorizeURL = "https://github.com/login/oauth/authorize";
+const tokenURL = "https://github.com/login/oauth/access_token";
 
 exports.handler = async function (event) {
   // CORS preflight
@@ -24,20 +21,31 @@ exports.handler = async function (event) {
   const client_id = process.env.GITHUB_CLIENT_ID;
   const client_secret = process.env.GITHUB_CLIENT_SECRET;
 
-  const origin = siteOrigin(event);
-  const redirect_uri = `${origin}/.netlify/functions/decap-auth`;
+  if (!client_id || !client_secret) {
+    return {
+      statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Origin": allowOrigin,
+        "Cache-Control": "no-store",
+      },
+      body: JSON.stringify({ error: "Missing GitHub OAuth credentials" }),
+    };
+  }
 
   const params = new URLSearchParams(event.queryStringParameters || {});
   const code = params.get("code");
   const state = params.get("state") || "";
+  const redirect_uri = `${redirectBase}/.netlify/functions/decap-auth`;
+  const scope = process.env.GITHUB_OAUTH_SCOPE || "public_repo";
 
   // Step 1: redirect to GitHub if no code yet
   if (!code) {
-    const authorize = new URL("https://github.com/login/oauth/authorize");
+    const authorize = new URL(authorizeURL);
     authorize.searchParams.set("client_id", client_id);
     authorize.searchParams.set("redirect_uri", redirect_uri);
-    authorize.searchParams.set("scope", "repo");
+    authorize.searchParams.set("scope", scope);
     if (state) authorize.searchParams.set("state", state);
+
     return {
       statusCode: 302,
       headers: {
@@ -51,28 +59,41 @@ exports.handler = async function (event) {
 
   // Step 2: exchange code for token
   try {
-    const resp = await fetch("https://github.com/login/oauth/access_token", {
+    const resp = await fetch(tokenURL, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ client_id, client_secret, code, redirect_uri }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        client_id,
+        client_secret,
+        code,
+        redirect_uri,
+        state,
+      }),
     });
     const data = await resp.json();
 
-    if (!data.access_token) {
+    if (!resp.ok || !data.access_token) {
       return {
         statusCode: 401,
-        headers: { "Access-Control-Allow-Origin": allowOrigin },
+        headers: {
+          "Access-Control-Allow-Origin": allowOrigin,
+          "Cache-Control": "no-store",
+        },
         body: JSON.stringify({ error: "No access_token", details: data }),
       };
     }
 
     const token = data.access_token;
+    const postMessageOrigin = allowOrigin;
 
     const html = `<!doctype html><html><body>
 <script>(function(){
   var token = ${JSON.stringify(token)};
   var state = ${JSON.stringify(state)};
-  var origin = ${JSON.stringify(origin)};
+  var origin = ${JSON.stringify(postMessageOrigin)};
   var opener = (window.opener || window.parent);
   function sendAll(){
     try{opener.postMessage({ token: token, provider: 'github', state: state }, origin);}catch(e){}
@@ -109,7 +130,10 @@ Authenticated. This window will close automatically...
   } catch (err) {
     return {
       statusCode: 500,
-      headers: { "Access-Control-Allow-Origin": allowOrigin },
+      headers: {
+        "Access-Control-Allow-Origin": allowOrigin,
+        "Cache-Control": "no-store",
+      },
       body: JSON.stringify({ error: "Internal error", details: String(err) }),
     };
   }
