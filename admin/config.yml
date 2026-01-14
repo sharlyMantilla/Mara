@@ -1,9 +1,7 @@
 backend:
-  name: github
-  repo: sharlyMantilla/Mara
+  name: git-gateway
   branch: main
-  base_url: "https://marasport.netlify.app"
-  auth_endpoint: "/.netlify/functions/decap-auth"
+
 
 
 media_folder: "assets/uploads"
