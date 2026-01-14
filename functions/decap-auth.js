@@ -1,6 +1,6 @@
-// functions/decap-auth.js
-const allowOrigin = "https://marasport.netlify.app";
-const redirectBase = "https://marasport.netlify.app";
+﻿// functions/decap-auth.js
+const allowOrigin = "*"; // para no bloquear el postMessage/CORS
+const redirectBase = process.env.URL || "https://marasport.netlify.app";
 const authorizeURL = "https://github.com/login/oauth/authorize";
 const tokenURL = "https://github.com/login/oauth/access_token";
 
@@ -87,7 +87,7 @@ exports.handler = async function (event) {
     }
 
     const token = data.access_token;
-    const postMessageOrigin = allowOrigin;
+    const postMessageOrigin = "*";
 
     const html = `<!doctype html><html><body>
 <script>(function(){
