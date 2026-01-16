@@ -1,0 +1,185 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap");
+
+body[data-page="admin"] {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  color: #0f172a;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(255, 190, 152, 0.35), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, #fff7f1 0%, #f4f6f8 55%, #eef2f7 100%);
+  font-family: "Space Grotesk", "DM Sans", "Segoe UI", sans-serif;
+}
+
+body[data-page="admin"] h1 {
+  max-width: 1120px;
+  margin: 24px auto 8px;
+  padding: 0 16px;
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem);
+  letter-spacing: -0.02em;
+}
+
+body[data-page="admin"] #status,
+body[data-page="admin"] #errors {
+  max-width: 1120px;
+  margin: 10px auto;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-family: "DM Sans", "Space Grotesk", "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+body[data-page="admin"] #status {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+body[data-page="admin"] #errors {
+  background: rgba(255, 230, 230, 0.9);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+body[data-page="admin"] #nc-root {
+  position: relative;
+  min-height: 100vh;
+  z-index: 1;
+}
+
+body[data-page="admin"] #nc-root * {
+  box-sizing: border-box;
+}
+
+body[data-page="admin"] #nc-root .nc-appHeader {
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+  backdrop-filter: blur(10px);
+}
+
+body[data-page="admin"] #nc-root .nc-appHeader-content,
+body[data-page="admin"] #nc-root .nc-collectionPage-content,
+body[data-page="admin"] #nc-root .nc-entryEditor {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+body[data-page="admin"] #nc-root .nc-appHeader-navLink,
+body[data-page="admin"] #nc-root .nc-appHeader-navItem {
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+body[data-page="admin"] #nc-root .nc-appHeader-navLink.active,
+body[data-page="admin"] #nc-root .nc-appHeader-navLink.is-active {
+  background: #ffe7d9;
+  color: #0f172a;
+}
+
+body[data-page="admin"] #nc-root .nc-collectionList-item,
+body[data-page="admin"] #nc-root .nc-entryListing-item {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 16px;
+  padding: 12px 16px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+body[data-page="admin"] #nc-root .nc-collectionList-item:hover,
+body[data-page="admin"] #nc-root .nc-entryListing-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.12);
+}
+
+body[data-page="admin"] #nc-root .nc-searchInput input,
+body[data-page="admin"] #nc-root input[type="text"],
+body[data-page="admin"] #nc-root input[type="number"],
+body[data-page="admin"] #nc-root input[type="search"],
+body[data-page="admin"] #nc-root select,
+body[data-page="admin"] #nc-root textarea {
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  padding: 10px 12px;
+  font-family: "DM Sans", "Space Grotesk", "Segoe UI", sans-serif;
+  background: #ffffff;
+}
+
+body[data-page="admin"] #nc-root input:focus,
+body[data-page="admin"] #nc-root select:focus,
+body[data-page="admin"] #nc-root textarea:focus {
+  outline: 3px solid rgba(255, 190, 152, 0.6);
+  outline-offset: 2px;
+  border-color: rgba(255, 190, 152, 0.8);
+}
+
+body[data-page="admin"] #nc-root .nc-button,
+body[data-page="admin"] #nc-root .nc-editorControlBar-button,
+body[data-page="admin"] #nc-root button {
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+body[data-page="admin"] #nc-root .nc-button-primary,
+body[data-page="admin"] #nc-root .nc-editorControlBar-button-primary {
+  background: #ffbe98;
+  color: #1f2937;
+  border: none;
+}
+
+body[data-page="admin"] #nc-root .nc-button-primary:hover,
+body[data-page="admin"] #nc-root .nc-editorControlBar-button-primary:hover {
+  filter: brightness(0.96);
+}
+
+body[data-page="admin"] #nc-root .nc-editorControlBar {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 14px;
+  padding: 8px;
+}
+
+body[data-page="admin"] #nc-root .nc-controlPane,
+body[data-page="admin"] #nc-root .nc-previewPane {
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+@media (max-width: 960px) {
+  body[data-page="admin"] h1 {
+    margin-top: 18px;
+  }
+
+  body[data-page="admin"] #nc-root .nc-entryEditor-container {
+    flex-direction: column;
+  }
+
+  body[data-page="admin"] #nc-root .nc-previewPane {
+    display: none;
+  }
+
+  body[data-page="admin"] #nc-root .nc-controlPane {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  body[data-page="admin"] #status,
+  body[data-page="admin"] #errors {
+    margin: 8px 12px;
+  }
+
+  body[data-page="admin"] #nc-root .nc-appHeader-content,
+  body[data-page="admin"] #nc-root .nc-collectionPage-content,
+  body[data-page="admin"] #nc-root .nc-entryEditor {
+    padding: 12px;
+  }
+
+  body[data-page="admin"] #nc-root .nc-collectionPage-controls {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+}
