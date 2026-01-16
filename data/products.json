@@ -1,20 +1,30 @@
 {
   "items": [
     {
-      "slug": "set-oversize-pushup-medias",
-      "nombre": "Set Oversize + Push Up + Medias",
-      "categoria": "Set",
-      "precio": 95000,
       "descripcion_corta": "Set 3 piezas: oversize, push up y medias.",
-      "descripcion_larga": "Camiseta oversize ligera, licra push up de ajuste seguro y medias transpirables. Ideal para gym y cardio.",
-      "tallas": ["XS","S","M","L"],
-      "colores": ["Negro","Blanco","Gris"],
       "imagenes": [
-        {"url": "/assets/uploads/oversize-pushup-1.jpg"},
-        {"url": "/assets/uploads/oversize-pushup-2.jpg"}
+        "/assets/uploads/gemini-2.5-flash-image-preview_full-length_photo_of_an_athletic_and_confident_woman_standing_in_a_studio_with_a_white_background._s-0-1-.jpg",
+        "/assets/uploads/gemini-2.5-flash-image-preview_full-length_photo_of_an_athletic_and_confident_woman_standing_in_a_studio_with_a_white_background._s-0-2-.jpg",
+        "/assets/uploads/whatsapp-image-2026-01-15-at-11.06.28-pm.jpeg"
       ],
+      "descripcion_larga": "Camiseta mini-oversize ligera, licra push up larga de ajuste seguro y medias transpirables. Ideal para gym y cardio.",
+      "estado": "activo",
+      "precio": 120000,
       "destacado": true,
-      "estado": "activo"
+      "nombre": "Set Oversize + Push Up + Medias",
+      "slug": "set-minioversize-pushup-medias-licra-larga",
+      "colores": [
+        "blanco perlado",
+        "durazno",
+        "durazno"
+      ],
+      "categoria": "Set",
+      "tallas": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ]
     }
   ]
 }
