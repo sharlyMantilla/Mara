@@ -1,185 +1,243 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap");
+/*
+ * MARA Admin Panel - Rediseño Minimalista + Pop Art
+ * Tipografía: Montserrat
+ * Paleta: Dark Mode con acentos vibrantes
+ */
 
-body[data-page="admin"] {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  color: #0f172a;
-  background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(255, 190, 152, 0.35), rgba(255, 255, 255, 0) 60%),
-    linear-gradient(180deg, #fff7f1 0%, #f4f6f8 55%, #eef2f7 100%);
-  font-family: "Space Grotesk", "DM Sans", "Segoe UI", sans-serif;
+/* 1. FUNDAMENTOS Y RESETEO */
+:root {
+  --bg-main: #18181B; /* Grafito */
+  --bg-panel: #27272A; /* Paneles */
+  --text-main: #F2F2F2; /* Texto principal */
+  --text-secondary: #A1A1AA; /* Texto grisáceo */
+  --border-color: rgba(161, 161, 170, 0.2); /* Borde sutil */
+  --pop-pink: #F43F5E; /* Acento primario */
+  --pop-blue: #3B82F6; /* Acento secundario */
+  --font-main: 'Montserrat', sans-serif;
 }
 
-body[data-page="admin"] h1 {
-  max-width: 1120px;
-  margin: 24px auto 8px;
-  padding: 0 16px;
-  font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem);
-  letter-spacing: -0.02em;
+body[data-page="admin"],
+#nc-root {
+  background-color: var(--bg-main) !important;
+  color: var(--text-main);
+  font-family: var(--font-main);
 }
 
-body[data-page="admin"] #status,
-body[data-page="admin"] #errors {
-  max-width: 1120px;
-  margin: 10px auto;
-  padding: 12px 16px;
-  border-radius: 14px;
-  font-family: "DM Sans", "Space Grotesk", "Segoe UI", sans-serif;
-  font-size: 0.95rem;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+/* Ocultar elementos de la página de carga inicial que ya no se usan */
+h1, #status, #errors {
+  display: none;
 }
 
-body[data-page="admin"] #status {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(148, 163, 184, 0.35);
-}
-
-body[data-page="admin"] #errors {
-  background: rgba(255, 230, 230, 0.9);
-  border: 1px solid rgba(239, 68, 68, 0.35);
-}
-
-body[data-page="admin"] #nc-root {
-  position: relative;
-  min-height: 100vh;
-  z-index: 1;
-}
-
-body[data-page="admin"] #nc-root * {
+#nc-root * {
   box-sizing: border-box;
+  font-family: var(--font-main) !important;
 }
 
-body[data-page="admin"] #nc-root .nc-appHeader {
-  background: rgba(255, 255, 255, 0.94);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
-  backdrop-filter: blur(10px);
+/* 2. CABECERA PRINCIPAL */
+.nc-appHeader {
+  background: var(--bg-panel) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  backdrop-filter: none !important;
 }
 
-body[data-page="admin"] #nc-root .nc-appHeader-content,
-body[data-page="admin"] #nc-root .nc-collectionPage-content,
-body[data-page="admin"] #nc-root .nc-entryEditor {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 16px;
+.nc-appHeader-navLink,
+.nc-appHeader-avatar {
+  color: var(--text-secondary) !important;
+  font-weight: 500;
 }
 
-body[data-page="admin"] #nc-root .nc-appHeader-navLink,
-body[data-page="admin"] #nc-root .nc-appHeader-navItem {
+.nc-appHeader-navLink.active,
+.nc-appHeader-navLink.is-active {
+  background-color: var(--pop-pink) !important;
+  color: var(--text-main) !important;
   border-radius: 999px;
-  padding: 6px 12px;
+  font-weight: 700;
 }
 
-body[data-page="admin"] #nc-root .nc-appHeader-navLink.active,
-body[data-page="admin"] #nc-root .nc-appHeader-navLink.is-active {
-  background: #ffe7d9;
-  color: #0f172a;
+.nc-appHeader-button {
+  background-color: var(--pop-blue);
+  color: var(--text-main);
+  border-radius: 999px;
+  font-weight: 700;
+  padding: 8px 20px !important;
+  transition: transform 0.2s ease;
+}
+.nc-appHeader-button:hover {
+  transform: scale(1.05);
 }
 
-body[data-page="admin"] #nc-root .nc-collectionList-item,
-body[data-page="admin"] #nc-root .nc-entryListing-item {
-  background: #ffffff;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  border-radius: 16px;
-  padding: 12px 16px;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+/* 3. PÁGINA DE COLECCIONES Y LISTADO DE ENTRADAS */
+.nc-collectionPage-header {
+  color: var(--text-main);
+  font-weight: 900;
+  font-size: 2rem;
+  letter-spacing: -0.05em;
 }
 
-body[data-page="admin"] #nc-root .nc-collectionList-item:hover,
-body[data-page="admin"] #nc-root .nc-entryListing-item:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.12);
+.nc-collectionPage-newEntry-button {
+  background-color: var(--pop-pink) !important;
+  color: var(--text-main) !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  padding: 12px 24px !important;
+  transition: transform 0.2s ease;
+}
+.nc-collectionPage-newEntry-button:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
 }
 
-body[data-page="admin"] #nc-root .nc-searchInput input,
-body[data-page="admin"] #nc-root input[type="text"],
-body[data-page="admin"] #nc-root input[type="number"],
-body[data-page="admin"] #nc-root input[type="search"],
-body[data-page="admin"] #nc-root select,
-body[data-page="admin"] #nc-root textarea {
+.nc-entryListing-item {
+  background-color: var(--bg-panel) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 16px !important;
+  transition: all 0.2s ease-in-out;
+}
+.nc-entryListing-item:hover {
+  border-color: var(--pop-blue) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.nc-entryListing-item-summary {
+  color: var(--text-main) !important;
+  font-weight: 700;
+}
+
+/* 4. EDITOR DE ENTRADAS (EL FORMULARIO) */
+.nc-entryEditor-container {
+  gap: 24px;
+}
+.nc-controlPane {
+  background-color: var(--bg-panel) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 16px !important;
+}
+
+/* Estilo de los campos del formulario */
+.nc-control-label {
+  color: var(--text-main) !important;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.nc-control-hint {
+  color: var(--text-secondary) !important;
+  font-style: italic;
+}
+
+input, textarea, select {
+  background-color: var(--bg-main) !important;
+  color: var(--text-main) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+  transition: border-color 0.2s ease;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--pop-blue) !important;
+  outline: none !important;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+/* Estilo para widgets específicos */
+.nc-widget-list-item, .nc-object-control {
+  border-color: var(--border-color) !important;
   border-radius: 12px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  padding: 10px 12px;
-  font-family: "DM Sans", "Space Grotesk", "Segoe UI", sans-serif;
-  background: #ffffff;
+  background-color: #3a3a3f; /* Slightly lighter for nesting */
+  padding: 1rem !important;
 }
 
-body[data-page="admin"] #nc-root input:focus,
-body[data-page="admin"] #nc-root select:focus,
-body[data-page="admin"] #nc-root textarea:focus {
-  outline: 3px solid rgba(255, 190, 152, 0.6);
-  outline-offset: 2px;
-  border-color: rgba(255, 190, 152, 0.8);
+.nc-widget-select[multiple] ul {
+  background-color: var(--bg-main) !important;
+  border: 1px solid var(--border-color) !important;
 }
 
-body[data-page="admin"] #nc-root .nc-button,
-body[data-page="admin"] #nc-root .nc-editorControlBar-button,
-body[data-page="admin"] #nc-root button {
-  border-radius: 999px;
-  padding: 8px 16px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+.nc-widget-select-option, .nc-widget-select-option-checked {
+  color: var(--text-main) !important;
+}
+.nc-widget-select-option:hover {
+  background-color: var(--pop-blue) !important;
 }
 
-body[data-page="admin"] #nc-root .nc-button-primary,
-body[data-page="admin"] #nc-root .nc-editorControlBar-button-primary {
-  background: #ffbe98;
-  color: #1f2937;
-  border: none;
+/* 5. BARRA DE PUBLICACIÓN Y BOTONES */
+.nc-editor-toolbar {
+  background: var(--bg-panel) !important;
+  border-top: 1px solid var(--border-color) !important;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
-body[data-page="admin"] #nc-root .nc-button-primary:hover,
-body[data-page="admin"] #nc-root .nc-editorControlBar-button-primary:hover {
-  filter: brightness(0.96);
+.nc-editor-toolbar-delete-button {
+  background-color: transparent !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--text-secondary) !important;
+}
+.nc-editor-toolbar-delete-button:hover {
+  background-color: #ff3b3b !important;
+  color: var(--text-main) !important;
+  border-color: #ff3b3b !important;
 }
 
-body[data-page="admin"] #nc-root .nc-editorControlBar {
-  background: #ffffff;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  border-radius: 14px;
-  padding: 8px;
+.nc-publish-dropdown-items-container {
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+}
+.nc-publish-dropdown-item {
+    color: var(--text-secondary);
+}
+.nc-publish-dropdown-item:hover {
+    background-color: var(--pop-blue);
+    color: var(--text-main);
+}
+.nc-publish-button-icon-container {
+    border-left: 1px solid var(--border-color);
+}
+.nc-publish-button-label {
+    font-weight: 700;
+}
+.nc-publish-button {
+  background-color: var(--pop-pink) !important;
+  color: var(--text-main) !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  transition: transform 0.2s ease;
+}
+.nc-publish-button:hover {
+  transform: scale(1.05);
 }
 
-body[data-page="admin"] #nc-root .nc-controlPane,
-body[data-page="admin"] #nc-root .nc-previewPane {
-  border-radius: 16px;
-  background: #ffffff;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-}
 
-@media (max-width: 960px) {
-  body[data-page="admin"] h1 {
-    margin-top: 18px;
-  }
-
-  body[data-page="admin"] #nc-root .nc-entryEditor-container {
+/* 6. RESPONSIVIDAD */
+@media (max-width: 768px) {
+  .nc-entryEditor-container {
     flex-direction: column;
   }
-
-  body[data-page="admin"] #nc-root .nc-previewPane {
-    display: none;
+  .nc-previewPane-frame {
+    display: none; /* Ocultar vista previa en móviles para dar espacio al formulario */
   }
-
-  body[data-page="admin"] #nc-root .nc-controlPane {
+  .nc-controlPane {
     width: 100%;
   }
+  .nc-collectionPage-header {
+    font-size: 1.5rem;
+  }
+  .nc-collectionPage-newEntry-button {
+    padding: 10px 20px !important;
+  }
 }
 
-@media (max-width: 640px) {
-  body[data-page="admin"] #status,
-  body[data-page="admin"] #errors {
-    margin: 8px 12px;
-  }
-
-  body[data-page="admin"] #nc-root .nc-appHeader-content,
-  body[data-page="admin"] #nc-root .nc-collectionPage-content,
-  body[data-page="admin"] #nc-root .nc-entryEditor {
-    padding: 12px;
-  }
-
-  body[data-page="admin"] #nc-root .nc-collectionPage-controls {
-    flex-direction: column;
-    gap: 8px;
-    align-items: stretch;
-  }
+/* 7. SEPARADORES VISUALES PARA GRUPOS DE CAMPOS */
+div[data-field-name="precio"]::before,
+div[data-field-name="tallas"]::before,
+div[data-field-name="estado"]::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 40px 0 24px 0;
 }

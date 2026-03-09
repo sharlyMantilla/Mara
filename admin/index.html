@@ -5,159 +5,87 @@
     <title>Admin | Mara</title>
     <meta name="robots" content="noindex" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./admin.css" />
     <style>
-      body { font-family: Arial, sans-serif; padding: 20px; }
-      .debug { background: #f5f5f5; padding: 10px; margin: 10px 0; border-left: 4px solid #007acc; }
-      .error { background: #ffe6e6; border-left-color: #cc0000; }
-      .success { background: #e6ffe6; border-left-color: #00cc00; }
+      /* Estilos de carga mínimos para una apariencia limpia. El resto lo maneja admin.css */
+      body { display: none; } /* Ocultar cuerpo hasta que el script de abajo lo muestre */
+      .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #18181B;
+        font-family: 'Montserrat', sans-serif;
+        color: #F2F2F2;
+      }
+      .auth-message {
+        padding: 2em;
+        background-color: #27272A;
+        border-radius: 16px;
+        text-align: center;
+      }
     </style>
   </head>
   <body data-page="admin">
-    <h1>Admin Panel - Mara</h1>
-    <div id="status" class="debug">Initializing Decap CMS...</div>
-    <div id="errors" class="debug error" style="display:none;"></div>
-
+    <!-- Contenedor de autenticación y carga. Se elimina después de que Decap se renderiza. -->
+    <div id="auth-container" class="auth-container">
+      <div class="auth-message">Cargando panel de administración...</div>
+    </div>
+    
     <!-- Decap CMS root element -->
     <div id="nc-root"></div>
 
-    <!-- Bloque de comprobaciones (SOLO logs, sin CMS.init aquÃ­) -->
     <script>
-      console.log('Decap CMS script loaded');
-
-      // Check if config exists
-      fetch('./config.yml')
-        .then(response => {
-          if (response.ok) {
-            document.getElementById('status').innerHTML += '<br>&#10003; Config file found';
-            console.log('Config file accessible');
-          } else {
-            throw new Error('Config file not found');
-          }
-        })
-        .catch(error => {
-          document.getElementById('status').innerHTML += '<br>&#10007; Config file error: ' + error.message;
-          document.getElementById('errors').style.display = 'block';
-          document.getElementById('errors').innerHTML = 'Error loading config.yml: ' + error.message;
-          console.error('Config error:', error);
-        });
-
-      // Check if data file exists
-      fetch('../data/products.json')
-        .then(response => {
-          if (response.ok) {
-            document.getElementById('status').innerHTML += '<br>&#10003; Products data file found';
-            console.log('Products data accessible');
-          } else {
-            throw new Error('Products data file not found');
-          }
-        })
-        .catch(error => {
-          document.getElementById('status').innerHTML += '<br>&#10007; Products data error: ' + error.message;
-          document.getElementById('errors').style.display = 'block';
-          document.getElementById('errors').innerHTML += '<br>Error loading products.json: ' + error.message;
-          document.getElementById('status').innerHTML += '<br>&#10007; Products data error: ' + error.message;
-        });
-
-      // Check uploads folder
-      fetch('../assets/uploads/')
-        .then(response => {
-          document.getElementById('status').innerHTML += '<br>&#10003; Uploads folder accessible';
-          document.getElementById('status').innerHTML += '<br>&#10003; Uploads folder accessible';
-        })
-        .catch(error => {
-          document.getElementById('status').innerHTML += '<br>&#9888; Uploads folder may not exist or be accessible';
-          console.warn('Uploads folder issue:', error);
-        });
-
-      // No inicializamos el CMS aquÃ­ para evitar doble init
-      window.addEventListener('load', function() {
-        console.log('Window loaded, CMS checks running...');
-        if (typeof window.CMS === 'undefined') {
-          document.getElementById('status').innerHTML += '<br>&#10007; Decap CMS not loaded';
-          const errBox = document.getElementById('errors');
-          errBox.style.display = 'block';
-          errBox.innerHTML += '<br>Decap CMS script failed to load';
-          return;
+      // Lógica para mostrar el body solo cuando es necesario, evitando FOUC (Flash of Unstyled Content)
+      document.addEventListener('DOMContentLoaded', function() {
+        // Si no estamos en la página de autenticación de Netlify/Decap, muestra el body.
+        if (window.location.hash.indexOf('auth=') === -1) {
+          document.body.style.display = 'block';
         }
-        document.getElementById('status').innerHTML += '<br>&#10003; Decap CMS script present';
+        // El script de autenticación de Decap se encargará de los popups.
+        // Si hay un error de carga, el panel no se mostrará, lo cual es aceptable.
       });
 
-      // Global error handler
+      // Manejo de errores simplificado. Los errores críticos se mostrarán en la consola.
       window.addEventListener('error', function(e) {
-        const errBox = document.getElementById('errors');
-        errBox.style.display = 'block';
-        errBox.innerHTML += '<br>Global error: ' + e.message;
-        console.error('Global error:', e);
-      });
-
-      // Unhandled promise rejection handler
-      window.addEventListener('unhandledrejection', function(e) {
-        const errBox = document.getElementById('errors');
-        errBox.style.display = 'block';
-        errBox.innerHTML += '<br>Unhandled promise rejection: ' + e.reason;
-        console.error('Unhandled rejection:', e);
-      });
-    </script>
-    <!-- Debug: listener de autenticación OAuth (GitHub/Decap) -->
-    <script>
-      (function () {
-        const statusEl = document.getElementById('status');
-        function log(line) {
-          try { console.log('[admin-auth]', line); } catch(_){}
-          if (statusEl) statusEl.innerHTML += '<br>' + line;
+        console.error('Global error:', e.message);
+        const authMessage = document.querySelector('#auth-container .auth-message');
+        if (authMessage) {
+          authMessage.textContent = 'Error al cargar. Revisa la consola (F12).';
         }
-        window.addEventListener('message', function (event) {
-  try {
-    log('postMessage from ' + event.origin);
-    log('data: ' + JSON.stringify(event.data));
-    var d = event.data;
-    var token = null;
-    if (typeof d === 'string') {
-      var prefix = 'authorization:github:success:';
-      if (d.indexOf(prefix) === 0) token = d.slice(prefix.length);
-    } else if (d && typeof d === 'object') {
-      token = d.token || d.access_token || (d.data && (d.data.token || d.data.access_token));
-    }
-    if (token) {
-      log('Token received. (len=' + String(token).length + ')');
-      try { localStorage.setItem('decap_token_debug', token); } catch (e) {}
-      // Persist to keys Decap/Netlify CMS read
-      try { localStorage.setItem('netlify-cms-auth', JSON.stringify({ token: token, provider: 'github' })); } catch (e) {}
-      try { localStorage.setItem('decap-cms-auth', JSON.stringify({ token: token, provider: 'github' })); } catch (e) {}
-      // Enrich netlify-cms-user with GitHub login (helps some versions)
-      fetch('https://api.github.com/user', { headers: { Authorization: 'token ' + token } })
-        .then(r => r.ok ? r.json() : Promise.reject(r.status + ' ' + r.statusText))
-        .then(u => {
-          try { localStorage.setItem('netlify-cms-user', JSON.stringify({ token: token, user: { login: u.login, id: u.id } })); } catch (e) {}
-          log('GitHub user: ' + JSON.stringify({ login: u.login, id: u.id }));
-        })
-        .catch(err => log('GitHub user fetch error: ' + err))
-        .finally(() => {
-          setTimeout(function(){ try { window.location.reload(); } catch(e) {} }, 400);
-        });
-    } else {
-      log('No token found in message payload');
-    }
-  } catch (err) {
-    console.error('message handler error', err);
-  }
-});
-      })();
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        console.error('Unhandled rejection:', e.reason);
+        const authMessage = document.querySelector('#auth-container .auth-message');
+        if (authMessage) {
+          authMessage.textContent = 'Error al cargar. Revisa la consola (F12).';
+        }
+      });
     </script>
-
-<!-- Carga local de Decap CMS (sin CDNs) -->
+    
+<!-- Carga de Decap CMS y su localización en español -->
 <script>window.CMS_MANUAL_INIT = true;</script>
 <script src="https://unpkg.com/decap-cms@3.7.2/dist/decap-cms.js"></script>
+<script src="https://unpkg.com/decap-cms-locales@1.7.0/dist/umd/es.js"></script>
 <script>
+  // Registra la localización en español
+  if (window.es) {
+    CMS.registerLocale('es', window.es);
+  }
+
+  // Inicializa el CMS
   try {
     CMS.init({ config: { load_config_file: true } });
-    document.getElementById('status').innerHTML += '<br>&#10003; CMS initialized successfully (CDN)';
+    console.log('CMS initialized successfully.');
   } catch (e) {
-    const errBox = document.getElementById('errors');
-    errBox.style.display = 'block';
-    errBox.innerHTML += '<br>CMS init error: ' + e.message;
-    console.error(e);
+    console.error('CMS init error:', e);
+    const authMessage = document.querySelector('#auth-container .auth-message');
+    if (authMessage) {
+      authMessage.textContent = 'Error fatal al iniciar el CMS. Revisa la consola.';
+    }
   }
 </script>
 

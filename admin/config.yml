@@ -25,14 +25,21 @@ collections:
             collapsed: false
             summary: "{{fields.nombre}} - ${{fields.precio}}"
             fields:
-              - { label: "ID/Slug", name: slug, widget: string, hint: "ej: set-oversize-pushup-medias" }
+              # Grupo: Información Esencial
               - { label: "Nombre", name: nombre, widget: string }
+              - { label: "ID/Slug", name: slug, widget: string, hint: "Generado a partir del nombre si se deja vacío. Ej: set-oversize-amarillo" }
               - { label: "Categoria", name: categoria, widget: select, options: [Set, Leggings, Biker, Medias] }
+              
+              # Grupo: Detalles y Precio
               - { label: "Precio (COP)", name: precio, widget: number, value_type: int, min: 0, step: 1000 }
               - { label: "Descripción corta", name: descripcion_corta, widget: text }
               - { label: "Descripción larga", name: descripcion_larga, widget: text }
+
+              # Grupo: Variantes y Medios
               - { label: "Tallas", name: tallas, widget: select, multiple: true, options: [XS, S, M, L], default: [S, M] }
               - { label: "Colores", name: colores, widget: list, field: { label: Color, name: color, widget: string } }
               - { label: "Imágenes", name: imagenes, widget: list, field: { label: URL de imagen, name: url, widget: image } }
-              - { label: "Destacado", name: destacado, widget: boolean, default: false }
+
+              # Grupo: Publicación
               - { label: "Estado", name: estado, widget: select, options: [activo, borrador], default: activo }
+              - { label: "Destacado", name: destacado, widget: boolean, default: false, hint: "Marcar si este producto debe aparecer en la sección de destacados." }
