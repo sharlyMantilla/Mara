@@ -69,11 +69,11 @@
 <!-- Carga de Decap CMS y su localización en español -->
 <script>window.CMS_MANUAL_INIT = true;</script>
 <script src="https://unpkg.com/decap-cms@3.7.2/dist/decap-cms.js"></script>
-<script src="https://unpkg.com/decap-cms-locales@1.7.0/dist/umd/es.js"></script>
+<script src="https://unpkg.com/decap-cms-locales"></script>
 <script>
   // Registra la localización en español
-  if (window.es) {
-    CMS.registerLocale('es', window.es);
+  if (window.decapCMSLocales && window.decapCMSLocales.es) {
+    CMS.registerLocale('es', window.decapCMSLocales.es);
   }
 
   // Inicializa el CMS
